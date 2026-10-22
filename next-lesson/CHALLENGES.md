@@ -20,7 +20,7 @@ All lesson folders go inside `src/app/`.
 
 Docs: https://nextjs.org/docs/app/getting-started/layouts-and-pages
 
-- [ ] 1. Create `01-layouts-and-pages/page.tsx` that shows "Lesson 01".
+- [x] 1. Create `01-layouts-and-pages/page.tsx` that shows "Lesson 01".
   - Done when: the link on home opens it.
 - [ ] 2. Add `01-layouts-and-pages/layout.tsx` with a header.
   - Done when: the header shows above the page.

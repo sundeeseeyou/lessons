@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Icon: code-braces-box
+  Set: Material Design Icons
+  Author: Pictogrammers (https://github.com/Templarian/MaterialDesign)
+  License: Apache 2.0 (https://github.com/Templarian/MaterialDesign/blob/master/LICENSE)
+  Source: https://iconify.design
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 24 24"
+     width="24"
+     height="24">
+  <title>Curly Braces Code Icon</title>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="">
+        <dc:title>Curly Braces Code Icon</dc:title>
+        <dc:description>A minimalist icon of curly braces, commonly used in programming and coding. Ideal for software development, coding tutorials, and tech-related designs.</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Pictogrammers</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:source>https://github.com/Templarian/MaterialDesign</dc:source>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Pictogrammers</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <cc:license rdf:resource="https://github.com/Templarian/MaterialDesign/blob/master/LICENSE"/>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>curly-braces</rdf:li>
+            <rdf:li>code-icon</rdf:li>
+            <rdf:li>programming-symbol</rdf:li>
+            <rdf:li>coding-icon</rdf:li>
+            <rdf:li>software-development</rdf:li>
+            <rdf:li>tech-icon</rdf:li>
+            <rdf:li>developer-tools</rdf:li>
+            <rdf:li>programming-language</rdf:li>
+            <rdf:li>syntax-icon</rdf:li>
+            <rdf:li>code-snippet</rdf:li>
+            <rdf:li>software-engineering</rdf:li>
+            <rdf:li>coding-tutorial</rdf:li>
+            <rdf:li>tech-design</rdf:li>
+            <rdf:li>programming-interface</rdf:li>
+            <rdf:li>curly-brackets</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="https://github.com/Templarian/MaterialDesign/blob/master/LICENSE">
+        <dc:title>Apache 2.0 (Apache-2.0)</dc:title>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-8 5H9v2c0 1.1-.9 2-2 2c1.1 0 2 .9 2 2v2h2v2H9c-1.1 0-2-.9-2-2v-1c0-1.1-.9-2-2-2v-2c1.1 0 2-.9 2-2V8c0-1.1.9-2 2-2h2zm8 5c-1.1 0-2 .9-2 2v1c0 1.1-.9 2-2 2h-2v-2h2v-2c0-1.1.9-2 2-2c-1.1 0-2-.9-2-2V8h-2V6h2c1.1 0 2 .9 2 2v1c0 1.1.9 2 2 2z"/>
+</svg>
