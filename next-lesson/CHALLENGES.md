@@ -11,7 +11,7 @@ All lesson folders go inside `src/app/`.
 
 ## 00 — Home menu
 
-- [ ] Replace `src/app/page.tsx` with a list of `<Link>`s to the 5 lesson folders.
+- [x] Replace `src/app/page.tsx` with a list of `<Link>`s to the 5 lesson folders.
   - Done when: `http://localhost:3000` shows 5 links.
 
 ---
@@ -22,15 +22,15 @@ Docs: https://nextjs.org/docs/app/getting-started/layouts-and-pages
 
 - [x] 1. Create `01-layouts-and-pages/page.tsx` that shows "Lesson 01".
   - Done when: the link on home opens it.
-- [ ] 2. Add `01-layouts-and-pages/layout.tsx` with a header.
+- [x] 2. Add `01-layouts-and-pages/layout.tsx` with a header.
   - Done when: the header shows above the page.
-- [ ] 3. Create `01-layouts-and-pages/about/page.tsx`.
+- [x] 3. Create `01-layouts-and-pages/about/page.tsx`.
   - Done when: `/01-layouts-and-pages/about` shows the same header.
-- [ ] 4. Create `01-layouts-and-pages/[slug]/page.tsx` that shows the slug from the URL.
+- [x] 4. Create `01-layouts-and-pages/[slug]/page.tsx` that shows the slug from the URL.
   - Done when: `/01-layouts-and-pages/hello` shows "hello".
   - Hint: `params` is a Promise, so `await params`.
   - Hint: red "blocking-route" error? Add `generateStaticParams` that returns a few slugs.
-- [ ] 5. Write `NOTES.md` + commit.
+- [x] 5. Write `NOTES.md` + commit.
 
 ---
 
@@ -38,13 +38,13 @@ Docs: https://nextjs.org/docs/app/getting-started/layouts-and-pages
 
 Docs: https://nextjs.org/docs/app/getting-started/linking-and-navigating
 
-- [ ] 1. Create pages `02-linking-and-navigating/a/page.tsx` and `02-linking-and-navigating/b/page.tsx`.
-- [ ] 2. In `02-linking-and-navigating/layout.tsx`, add a `<Link>` to `a`, a `<Link>` to `b`, and a plain `<a>` to `b`.
-- [ ] 3. Put an `<input />` in that layout. Type something, then click each link.
+- [x] 1. Create pages `02-linking-and-navigating/a/page.tsx` and `02-linking-and-navigating/b/page.tsx`.
+- [x] 2. In `02-linking-and-navigating/layout.tsx`, add a `<Link>` to `a`, a `<Link>` to `b`, and a plain `<a>` to `b`.
+- [x] 3. Put an `<input />` in that layout. Type something, then click each link.
   - Done when: you can explain why the text stays with `<Link>` but disappears with `<a>`.
-- [ ] 4. Make the current link bold, using `usePathname()`.
+- [x] 4. Make the current link bold, using `usePathname()`.
   - Hint: hooks need `'use client'` at the top of the file.
-- [ ] 5. Write `NOTES.md` + commit.
+- [x] 5. Write `NOTES.md` + commit.
 
 ---
 
