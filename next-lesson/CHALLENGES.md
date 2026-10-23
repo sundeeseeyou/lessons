@@ -94,10 +94,10 @@ Docs: https://nextjs.org/docs/app/getting-started/mutating-data
 ```md
 # Lesson NN — Name
 
-What it is:
-When to use it:
-Gotcha:
-Docs:
+- Learned:
+- Tried → saw:
+- Error → fix:
+- Docs:
 ```
 
 ## Commit (Git Bash, from the Lessons folder)

@@ -1,3 +1,14 @@
+<!-- Format NOTES.md
+
+# Lesson xx — Fullname
+
+- What it is:
+- When to use it:
+- Gotcha:
+- Docs:
+
+-->
+
 # Lesson 01 — Sandi Miftah
 
 - What it is: Learn how to setup layouts and pages on next js
