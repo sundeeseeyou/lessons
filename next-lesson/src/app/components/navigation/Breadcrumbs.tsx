@@ -7,7 +7,7 @@ export default function Breadcrumbs() {
   const pathname = usePathname();
   return (
     <header className="flex flex-row justify-center items-center gap-4">
-     <Link></Link>
+     <Link href="/">Home</Link>
         <li>Home</li>
       </ul>
     </header>
