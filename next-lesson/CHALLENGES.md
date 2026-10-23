@@ -3,6 +3,7 @@
 Rules:
 - One step at a time. Tick the box when done.
 - Stuck 10 minutes? Read the docs link. Still stuck? Ask.
+- Some lessons have a **Quiz**. Answer it in `NOTES.md`, not here.
 - After each lesson: write `NOTES.md` in the lesson folder, then commit.
 
 All lesson folders go inside `src/app/`.
@@ -41,10 +42,13 @@ Docs: https://nextjs.org/docs/app/getting-started/linking-and-navigating
 - [x] 1. Create pages `02-linking-and-navigating/a/page.tsx` and `02-linking-and-navigating/b/page.tsx`.
 - [x] 2. In `02-linking-and-navigating/layout.tsx`, add a `<Link>` to `a`, a `<Link>` to `b`, and a plain `<a>` to `b`.
 - [x] 3. Put an `<input />` in that layout. Type something, then click each link.
-  - Done when: you can explain why the text stays with `<Link>` but disappears with `<a>`.
 - [x] 4. Make the current link bold, using `usePathname()`.
   - Hint: hooks need `'use client'` at the top of the file.
-- [x] 5. Write `NOTES.md` + commit.
+- [x] 5. Write `NOTES.md` (with quiz answer) + commit.
+
+**Quiz**
+
+> Q1. Why does the input text stay when you click `<Link>`, but disappear when you click `<a>`?
 
 ---
 
@@ -52,14 +56,18 @@ Docs: https://nextjs.org/docs/app/getting-started/linking-and-navigating
 
 Docs: https://nextjs.org/docs/app/getting-started/server-and-client-components
 
-- [ ] 1. In `03-server-and-client-components/page.tsx`, add `console.log("page")`.
-  - Done when: you know where it prints (terminal or browser?).
-- [ ] 2. Make `counter.tsx` with `'use client'` and a `useState` button. Use it in the page.
+- [x] 1. In `03-server-and-client-components/page.tsx`, add `console.log("page")`. Reload the page.
+- [x] 2. Make `counter.tsx` with `'use client'` and a `useState` button. Use it in the page.
   - Done when: clicking increases the number.
-- [ ] 3. Remove `'use client'` from `counter.tsx`. Read the error. Put it back.
-- [ ] 4. Add `console.log("counter")` inside the counter. Reload the page.
-  - Done when: you know where it prints, and why.
-- [ ] 5. Write `NOTES.md` + commit.
+- [x] 3. Remove `'use client'` from `counter.tsx`. Read the error. Put it back.
+- [x] 4. Add `console.log("counter")` inside the counter. Reload the page.
+- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
+
+**Quiz**
+
+> Q1. Where does `console.log("page")` print: terminal, browser, or both?
+>
+> Q2. Where does `console.log("counter")` print, and why is it different from `"page"`?
 
 ---
 
@@ -84,8 +92,12 @@ Docs: https://nextjs.org/docs/app/getting-started/mutating-data
 - [ ] 3. In `05-mutating-data/page.tsx`, add `<form action={addTodo}>` with `<input name="title" />` and a button, and list the todos below it.
   - Done when: a new todo appears after you submit.
   - Note: the list resets when the dev server restarts. That's fine.
-- [ ] 4. Remove the `revalidatePath` line and add a todo. What happens? Put it back.
-- [ ] 5. Write `NOTES.md` + commit.
+- [ ] 4. Remove the `revalidatePath` line and add a todo. Then put the line back.
+- [ ] 5. Write `NOTES.md` (with quiz answer) + commit.
+
+**Quiz**
+
+> Q1. In step 4, without `revalidatePath`, what happened after you added a todo?
 
 ---
 
@@ -97,6 +109,7 @@ Docs: https://nextjs.org/docs/app/getting-started/mutating-data
 - Learned:
 - Tried → saw:
 - Error → fix:
+- Quiz: (skip if the lesson has none)
 - Docs:
 ```
 
