@@ -5,7 +5,7 @@ import logo from "@public/main-logo.svg";
 export default function Header() {
   return (
     <>
-      <header className="flex flex-row justify-between items-center w-full px-32 py-4 mx-auto border-b border-b-gray-300">
+      <header className="flex flex-row justify-between items-center w-full px-16 py-4 mx-auto border-b border-b-gray-300">
         <Link
           href="/"
           className="flex flex-row justify-center-safe items-center gap-2"
