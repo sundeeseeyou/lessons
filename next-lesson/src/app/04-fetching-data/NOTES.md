@@ -11,12 +11,12 @@
 - Closest suspense to a "slow data", that one that will be executed
 - Turns out, loading.tsx will create Suspense in the background
 - Back button can be created 3 ways, exact address, with dots (.) or using client side `useRouter`
-- Turns out async / await pair only work in server-side
+- Async / await pair can work both in server and client (example in onClick), however, you cant put async await on `Export default function` along with `"use client"`
 - If you need a client side hooks along with server side function/logic, always separate the client side into a component
 
 ## Implementation:
 
-- The use of async must be awaited.
+- The use of await only use to an async function
 - API called can be checked by put the variable that assigned to it getting "console.log"
 - The Type assignment of JSON, can be done selectively. Pick any key that suit your needs
 
