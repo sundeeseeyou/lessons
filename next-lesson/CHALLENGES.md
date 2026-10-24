@@ -75,7 +75,7 @@ Docs: https://nextjs.org/docs/app/getting-started/server-and-client-components
 
 Docs: https://nextjs.org/docs/app/getting-started/fetching-data
 
-- [ ] 1. Make an `async` component that fetches `https://api.vercel.app/blog` and lists the titles. Render it in `04-fetching-data/page.tsx`.
+- [x] 1. Make an `async` component that fetches `https://api.vercel.app/blog` and lists the titles. Render it in `04-fetching-data/page.tsx`.
   - Hint: red "blocking-route" error? Wrap the component in `<Suspense fallback={<p>Loading...</p>}>`.
 - [ ] 2. Create `04-fetching-data/with-loading/page.tsx` that fetches directly in the page, plus `loading.tsx` next to it.
   - Done when: you see the loading text, then the list.
