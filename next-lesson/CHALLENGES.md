@@ -93,7 +93,7 @@ Docs: https://nextjs.org/docs/app/getting-started/mutating-data
   - Done when: a new todo appears after you submit.
   - Note: the list resets when the dev server restarts. That's fine.
 - [x] 4. Remove the `revalidatePath` line and add a todo. Then put the line back.
-- [ ] 5. Write `NOTES.md` (with quiz answer) + commit.
+- [x] 5. Write `NOTES.md` (with quiz answer) + commit.
 
 **Quiz**
 

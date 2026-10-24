@@ -1,4 +1,4 @@
-# Lesson 04 - Fetching Data
+# Lesson 05 - Mutating Data
 
 ## Experience:
 
@@ -8,6 +8,8 @@
 - Turns out, any array in ts file, only meant for initial value, you cannot see the changes even you successfully push something to the array, because, the changes only happens in memory
 - the `as string` type, is quite refreshment, I knew it before, but forgot at all that I can use it. This lesson just refresh my memory. But now i forgot whats that for? and why is not th same as `const data: string`?
 - input can be located inside label that turn into div-ish, you can set any tailwind there. if you do it, you needn't use any htmlFor or id pair
+- to make form work, the input's attribute name must contain certain value that will be during submission
+- button type need to be "submit" so it make the button work as the submit btn
 
 ## Implementation:
 
@@ -20,7 +22,7 @@ Is FormData type a preset? or I can change it with other name?
 
 ## Quiz Answers:
 
-- the revalidate function is not new to me, but it's kinda clearer now. It's just revalidate the changes you commit. Because without it, the changes cannot be shown to client, but in the background, those push to array still count
+1. the revalidate function is not new to me, but it's kinda clearer now. It's just revalidate the changes you commit. Because without it, the changes cannot be shown to client, but in the background, those push to array still count
 
 ## References:
 
