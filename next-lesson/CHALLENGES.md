@@ -87,12 +87,12 @@ Docs: https://nextjs.org/docs/app/getting-started/fetching-data
 
 Docs: https://nextjs.org/docs/app/getting-started/mutating-data
 
-- [ ] 1. Create `05-mutating-data/todos.ts` with `export const todos: string[] = []`.
-- [ ] 2. Create `05-mutating-data/actions.ts` with `'use server'` at the top and an `addTodo(formData: FormData)` function that pushes `formData.get("title")` into `todos` and then calls `revalidatePath("/05-mutating-data")`.
-- [ ] 3. In `05-mutating-data/page.tsx`, add `<form action={addTodo}>` with `<input name="title" />` and a button, and list the todos below it.
+- [x] 1. Create `05-mutating-data/todos.ts` with `export const todos: string[] = []`.
+- [x] 2. Create `05-mutating-data/actions.ts` with `'use server'` at the top and an `addTodo(formData: FormData)` function that pushes `formData.get("title")` into `todos` and then calls `revalidatePath("/05-mutating-data")`.
+- [x] 3. In `05-mutating-data/page.tsx`, add `<form action={addTodo}>` with `<input name="title" />` and a button, and list the todos below it.
   - Done when: a new todo appears after you submit.
   - Note: the list resets when the dev server restarts. That's fine.
-- [ ] 4. Remove the `revalidatePath` line and add a todo. Then put the line back.
+- [x] 4. Remove the `revalidatePath` line and add a todo. Then put the line back.
 - [ ] 5. Write `NOTES.md` (with quiz answer) + commit.
 
 **Quiz**
