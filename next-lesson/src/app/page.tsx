@@ -8,11 +8,15 @@ export default function Home() {
         <h1 className="text-4xl font-bold">Table of Lessons</h1>
       </div>
       <nav className="flex flex-col justify-start items-start space-y-4 px-8 py-4 border">
-        {lessons.map((list, id) => (
-          <Link key={id} href={list.url}>
-            {list.title}
-          </Link>
-        ))}
+        <ol className="space-y-6 pl-6 list-decimal">
+          {lessons.map((list, id) => (
+            <li key={id}>
+              <Link className="hover:underline" href={list.url}>
+                {list.title}
+              </Link>
+            </li>
+          ))}
+        </ol>
       </nav>
     </section>
   );

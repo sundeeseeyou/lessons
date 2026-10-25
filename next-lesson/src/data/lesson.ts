@@ -1,23 +1,43 @@
 const lesson = [
   {
     url: "/01-layouts-and-pages",
-    title: "01. Layouts and Pages",
+    title: "Layouts and Pages",
   },
   {
     url: "/02-linking-and-navigating",
-    title: "02. Linking and Navigating",
+    title: "Linking and Navigating",
   },
   {
     url: "/03-server-and-client-components",
-    title: "03. Server and Client Components",
+    title: "Server and Client Components",
   },
   {
     url: "/04-fetching-data",
-    title: "04. Fetching Data",
+    title: "Fetching Data",
   },
   {
     url: "/05-mutating-data",
-    title: "05. Mutating Data",
+    title: "Mutating Data",
+  },
+  {
+    url: "/06-use-state",
+    title: "useState",
+  },
+  {
+    url: "/07-effect-and-ref",
+    title: "useState and useRef",
+  },
+  {
+    url: "/08-search-params-and-userouter",
+    title: "Search Params and useRouter",
+  },
+  {
+    url: "/09-error-handling",
+    title: "Error Handling",
+  },
+  {
+    url: "/10-caching",
+    title: "Caching",
   },
 ];
 
