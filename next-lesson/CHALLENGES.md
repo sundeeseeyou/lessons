@@ -116,12 +116,12 @@ Docs:
   - Hint: show it conditionally with `{show && <p>...</p>}`.
 - [x] 3. Create `06-use-state/name-input.tsx`: an input whose value lives in state (`value={name}` + `onChange={(e) => setName(e.target.value)}`). Below it, show `Hello, {name}`.
   - Done when: the greeting updates while you type.
-- [ ] 4. Create `06-use-state/shopping-list.tsx`: an input + an "Add" button. Keep the items in `useState<string[]>([])` and add with `setItems([...items, text])`. Show the items in a `<ul>`.
+- [x] 4. Create `06-use-state/shopping-list.tsx`: an input + an "Add" button. Keep the items in `useState<string[]>([])` and add with `setItems([...items, text])`. Show the items in a `<ul>`.
   - Done when: the list grows on every click.
   - Hint: you need two states: the input text and the items.
   - Hint: don't wrap it in a `<form>` (there's no server action here). Use the button's `onClick`.
   - Hint: `key={index}` is fine here, because this list never gets reordered.
-- [ ] 5. Change the add line to `items.push(text); setItems(items);`. Click "Add" a few times, then type one more letter in the input. Put the spread version back.
+- [x] 5. Change the add line to `items.push(text); setItems(items);`. Click "Add" a few times, then type one more letter in the input. Put the spread version back.
 - [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**

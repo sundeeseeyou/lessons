@@ -42,7 +42,7 @@ export default function ToggleBtn() {
         onClick={showHandle}
         className="mt-4 py-2 px-6 bg-black text-white hover:cursor-pointer"
       >
-        Hide
+        {!show ? "Show" : "Hide"}
       </button>
     </>
   );

@@ -1,5 +1,6 @@
 import ToggleBtn from "./toggle";
 import NameInput from "./name-input";
+import ShoppingList from "./shopping-list";
 
 export default function LessonSix() {
   return (
@@ -9,6 +10,7 @@ export default function LessonSix() {
 
         <ToggleBtn />
         <NameInput />
+        <ShoppingList />
       </div>
     </>
   );
