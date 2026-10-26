@@ -1,6 +1,7 @@
 # Next.js Challenges (00–10)
 
 Rules:
+
 - One step at a time. Tick the box when done.
 - Stuck 10 minutes? Read the docs link. Still stuck? Ask.
 - Some lessons have a **Quiz**. Answer it in `NOTES.md`, not here.
@@ -104,6 +105,7 @@ Docs: https://nextjs.org/docs/app/getting-started/mutating-data
 ## 06 — useState (client hooks 1)
 
 Docs:
+
 - https://react.dev/learn/state-a-components-memory
 - https://react.dev/learn/updating-arrays-in-state
 
@@ -122,7 +124,7 @@ Docs:
   - Hint: don't wrap it in a `<form>` (there's no server action here). Use the button's `onClick`.
   - Hint: `key={index}` is fine here, because this list never gets reordered.
 - [x] 5. Change the add line to `items.push(text); setItems(items);`. Click "Add" a few times, then type one more letter in the input. Put the spread version back.
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -135,6 +137,7 @@ Docs:
 ## 07 — useEffect and useRef (client hooks 2)
 
 Docs:
+
 - https://react.dev/learn/synchronizing-with-effects
 - https://react.dev/learn/manipulating-the-dom-with-refs
 
@@ -149,7 +152,7 @@ Docs:
   - Done when: it counts +1 every second.
   - Hint: use `(s) => s + 1`, not `seconds + 1`. With `[]`, the effect only ever sees the first value of `seconds`.
 - [ ] 5. Delete the `return () => clearInterval(id)` line and reload the page. Watch the speed. Put the line back.
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -162,6 +165,7 @@ Docs:
 ## 08 — Search Params and useRouter
 
 Docs:
+
 - https://nextjs.org/docs/app/api-reference/functions/use-search-params
 - https://nextjs.org/docs/app/api-reference/functions/use-router
 - https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional
@@ -207,7 +211,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
   - Hint: `useActionState` comes from `react`.
   - Hint: don't add `required` to the input, or the browser blocks the empty submit before it reaches your action.
   - Hint: with `useActionState`, the action gets `prevState` first and `formData` second.
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -222,6 +226,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 ## 10 — Caching
 
 Docs:
+
 - https://nextjs.org/docs/app/getting-started/caching
 - https://nextjs.org/docs/app/api-reference/functions/cacheLife
 
