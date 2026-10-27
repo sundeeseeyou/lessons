@@ -141,12 +141,12 @@ Docs:
 - https://react.dev/learn/synchronizing-with-effects
 - https://react.dev/learn/manipulating-the-dom-with-refs
 
-- [ ] 1. Create `07-effect-and-ref/focus-input.tsx`: an input + a "Focus" button. Use `useRef<HTMLInputElement>(null)`, put `ref={inputRef}` on the input, and call `inputRef.current?.focus()` on click. Render it in `07-effect-and-ref/page.tsx`.
+- [x] 1. Create `07-effect-and-ref/focus-input.tsx`: an input + a "Focus" button. Use `useRef<HTMLInputElement>(null)`, put `ref={inputRef}` on the input, and call `inputRef.current?.focus()` on click. Render it in `07-effect-and-ref/page.tsx`.
   - Done when: clicking the button puts the cursor in the input.
   - Hint: `?.` is there because `current` is `null` until React attaches the input.
-- [ ] 2. Create `07-effect-and-ref/title-counter.tsx`: a counter button with `useState`, plus ``useEffect(() => { document.title = `Clicked ${count} times` }, [count])``.
+- [x] 2. Create `07-effect-and-ref/title-counter.tsx`: a counter button with `useState`, plus ``useEffect(() => { document.title = `Clicked ${count} times` }, [count])``.
   - Done when: the browser tab title changes when you click.
-- [ ] 3. Add `console.log("effect ran")` inside that effect. Try 3 versions of the dependency array, clicking a few times each: no array, `[]`, `[count]`. End with `[count]`.
+- [x] 3. Add `console.log("effect ran")` inside that effect. Try 3 versions of the dependency array, clicking a few times each: no array, `[]`, `[count]`. End with `[count]`.
   - Hint: seeing the log twice on page load is normal in dev (Strict Mode).
 - [ ] 4. Create `07-effect-and-ref/timer.tsx`: a `seconds` state that goes up every second. In `useEffect` with `[]`: `const id = setInterval(() => setSeconds((s) => s + 1), 1000)` and `return () => clearInterval(id)`.
   - Done when: it counts +1 every second.
