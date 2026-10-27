@@ -148,10 +148,10 @@ Docs:
   - Done when: the browser tab title changes when you click.
 - [x] 3. Add `console.log("effect ran")` inside that effect. Try 3 versions of the dependency array, clicking a few times each: no array, `[]`, `[count]`. End with `[count]`.
   - Hint: seeing the log twice on page load is normal in dev (Strict Mode).
-- [ ] 4. Create `07-effect-and-ref/timer.tsx`: a `seconds` state that goes up every second. In `useEffect` with `[]`: `const id = setInterval(() => setSeconds((s) => s + 1), 1000)` and `return () => clearInterval(id)`.
+- [x] 4. Create `07-effect-and-ref/timer.tsx`: a `seconds` state that goes up every second. In `useEffect` with `[]`: `const id = setInterval(() => setSeconds((s) => s + 1), 1000)` and `return () => clearInterval(id)`.
   - Done when: it counts +1 every second.
   - Hint: use `(s) => s + 1`, not `seconds + 1`. With `[]`, the effect only ever sees the first value of `seconds`.
-- [ ] 5. Delete the `return () => clearInterval(id)` line and reload the page. Watch the speed. Put the line back.
+- [x] 5. Delete the `return () => clearInterval(id)` line and reload the page. Watch the speed. Put the line back.
 - [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
