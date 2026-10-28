@@ -164,91 +164,166 @@ Docs:
 
 ## 08 — Search Params and useRouter
 
-Docs:
+**What you're building:** a page that lists 10 blog titles, with "A–Z" and "Z–A" buttons. Clicking a button changes the URL and the order of the list.
 
+Docs:
 - https://nextjs.org/docs/app/api-reference/functions/use-search-params
 - https://nextjs.org/docs/app/api-reference/functions/use-router
 - https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional
 
-- [ ] 1. Create `08-search-params/sort-buttons.tsx` (`'use client'`) with two buttons, "A–Z" and "Z–A". On click: `router.push(pathname + "?sort=asc")` (or `desc`). Get `router` from `useRouter()` and `pathname` from `usePathname()`. Render it in `08-search-params/page.tsx`.
-  - Done when: clicking changes the URL.
-- [ ] 2. Create `08-search-params/current-sort.tsx` (`'use client'`) that reads `useSearchParams().get("sort")` and shows `Sort: asc` (or `Sort: none`). In the page, wrap `<CurrentSort />` in `<Suspense>`.
-  - Done when: the text follows the URL when you click.
-- [ ] 3. Create `08-search-params/post-list.tsx`: an `async` component that gets the page's `searchParams` as a prop, awaits it, fetches `https://api.vercel.app/blog`, and shows 10 titles sorted by `sort`.
-  - In the page: `export default function Page(props: PageProps<"/08-search-params">)` and render `<Suspense fallback={<p>Loading...</p>}><PostList searchParams={props.searchParams} /></Suspense>`.
-  - Done when: "A–Z" and "Z–A" reorder the list.
-  - Hint: type the prop like the docs do: `{ searchParams }: Pick<PageProps<"/08-search-params">, "searchParams">`.
-  - Hint: sort a copy: `[...posts].sort((a, b) => a.title.localeCompare(b.title))`. Use `.reverse()` for Z–A.
-- [ ] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change `router.push` to `router.replace` and do it again.
+- [x] 1. Make a sort buttons component (`sort-buttons.tsx`) with two buttons, "A–Z" and "Z–A". Clicking one keeps you on the same page but changes the URL to `?sort=asc` or `?sort=desc`. Show it on the lesson 08 page.
+  - Done when: the URL in the address bar changes when you click.
+- [x] 2. Make a component (`current-sort.tsx`) that shows which sort is active: "Sort: asc", "Sort: desc", or "Sort: none" when there's no sort in the URL.
+  - Done when: the text follows the URL when you click the buttons.
+- [x] 3a. Make a post list component (`post-list.tsx`) that fetches the blog posts and shows the first 10 titles, in the API's order. Show it on the page with a loading text while it waits.
+  - Done when: 10 titles show on the page.
+- [x] 3b. Let the post list know the current sort. The page hands the URL's query to the post list, and the post list reads `sort` from it and logs it.
+  - Done when: clicking "A–Z" logs `asc` in the terminal, and "Z–A" logs `desc`.
+- [x] 3c. Sort the titles before showing them: `asc` → A to Z, `desc` → Z to A, no sort → the API's order.
+  - Done when: the buttons reorder the list.
+- [ ] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change the buttons so they *replace* the current history entry instead of adding a new one, and try Back again.
 - [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
 > Q1. `useSearchParams()` vs the page's `searchParams` prop: which one works in a Server Component, and which one in a Client Component?
 >
-> Q2. In step 4, what changed about the Back button after you switched from `push` to `replace`?
+> Q2. In step 4, what changed about the Back button after the change?
 >
 > Q3. Why do the docs recommend wrapping a component that uses `useSearchParams` in `<Suspense>`?
+
+<details>
+<summary>Hints (open only when stuck)</summary>
+
+**Step 1**
+- Client component (`'use client'`). `useRouter()` and `usePathname()` come from `next/navigation`.
+- Navigate with `router.push(...)`. The new URL is the current path + `?sort=asc`.
+
+**Step 2**
+- `useSearchParams()` (from `next/navigation`) reads the query: `.get("sort")` gives `"asc"`, `"desc"`, or `null`.
+- A component that uses `useSearchParams` should be wrapped in `<Suspense>` where you render it.
+
+**Step 3a**
+- Same pattern as `posts.tsx` in lesson 04: an `async` component, wrapped in `<Suspense fallback={...}>` in the page.
+
+**Step 3b**
+- The page receives its props with `export default function LessonEight(props: PageProps<"/08-search-params">)`.
+- `props.searchParams` is a Promise (like `params` in lesson 01). Don't `await` it in the page. Pass it as a prop: `<PostList searchParams={props.searchParams} />`. Awaiting it in the page, outside `<Suspense>`, makes the whole page wait ("blocking-route").
+- In the post list, type the prop as `{ searchParams: Promise<{ sort?: string | string[] }> }`. Read it as: "a Promise that gives an object that *may* have `sort`". `?` = may be missing, `string[]` because a URL can repeat a key.
+- Then `const { sort } = await searchParams;`.
+
+**Step 3c**
+- A to Z: `[...posts].sort((a, b) => a.title.localeCompare(b.title))`. Z to A: add `.reverse()`.
+- Copy first (`[...posts]`) because `.sort()` changes the array it's called on.
+- `localeCompare` compares two strings alphabetically.
+
+**Step 4**
+- `router.replace(...)` instead of `router.push(...)`.
+
+</details>
 
 ---
 
 ## 09 — Error Handling
 
+**What you're building:** a lesson page with three sub-pages, each showing a different kind of error: a "not found", a crash, and a form that rejects bad input.
+
 Docs: https://nextjs.org/docs/app/getting-started/error-handling
 
-- [ ] 1. Create `09-error-handling/page.tsx` with links to `post`, `crash`, and `form` (pages you'll make below). Then create `src/app/not-found.tsx` (the root one) and visit `/does-not-exist`.
-  - Done when: `/does-not-exist` shows your own 404.
-- [ ] 2. Create `09-error-handling/post/page.tsx`: import `posts` from `@/data/post`, find the post whose `heading` is `"nope"`, and call `notFound()` (from `next/navigation`) if there's none. Add `09-error-handling/post/not-found.tsx` with different text from the root one.
-  - Done when: `/09-error-handling/post` shows the lesson's 404, not the root one. Then change `"nope"` to `"hello"` and the post shows.
-- [ ] 3. Create `09-error-handling/crash/bomb.tsx` (`'use client'`): an "Explode" button that sets `explode` to `true`, and `if (explode) throw new Error("Boom")` before the `return`. Render it in `crash/page.tsx`. Add `crash/error.tsx` (`'use client'`) that shows the message and a "Try again" button.
-  - Done when: "Explode" shows your error UI, and "Try again" brings the bomb back.
-  - Hint: the props are `{ error, retry }: { error: unknown; retry: () => void }`. It's `retry`, not `reset` (older tutorials use `reset`).
-  - Hint: `error` is `unknown`. Show it with `error instanceof Error ? error.message : String(error)`.
-  - Hint: in dev, Next.js shows its own red error overlay first. Close it to see your `error.tsx`.
-- [ ] 4. In `bomb.tsx`, add a second button: `onClick={() => { throw new Error("Click boom") }}`. Click it.
-- [ ] 5. Create `09-error-handling/form/actions.ts` (`'use server'`) with `saveName(prevState: { message: string }, formData: FormData)`. If the name is empty, return `{ message: "Name is required" }`, otherwise ``{ message: `Saved: ${name}` }``. Create `form/name-form.tsx` (`'use client'`) that uses `const [state, formAction, pending] = useActionState(saveName, { message: "" })`, puts `action={formAction}` on the form, shows `state.message`, and disables the button while `pending`. Render it in `form/page.tsx`.
+- [ ] 1. Make the lesson 09 page with links to three sub-pages: `post`, `crash`, and `form`. Also make your own 404 page for the whole site.
+  - Done when: opening `/does-not-exist` shows your own 404.
+- [ ] 2. Make the `post` page. It looks for a post with the heading `"nope"` in your local post data (`src/data/post.ts`). If there's no such post, it shows a "not found" page that belongs to this lesson, with different text from the site's 404.
+  - Done when: `/09-error-handling/post` shows the lesson's 404, not the site's. Then change `"nope"` to `"hello"` and the post shows.
+- [ ] 3. Make the `crash` page with an "Explode" button. Clicking it makes the component crash. Instead of a broken page, the user sees a friendly error screen with the error message and a "Try again" button that brings the "Explode" button back.
+  - Done when: "Explode" shows your error screen, and "Try again" brings the button back.
+- [ ] 4. On the `crash` page, add a second button that throws an error from inside its click handler. Click it and watch what happens (and what doesn't).
+- [ ] 5. Make the `form` page: a form with a name input. The check happens on the server. Submitting it empty shows "Name is required". Submitting a name shows "Saved: <name>". The submit button is disabled while it's saving.
   - Done when: an empty submit shows "Name is required", and a filled one shows "Saved: ...".
-  - Hint: `useActionState` comes from `react`.
-  - Hint: don't add `required` to the input, or the browser blocks the empty submit before it reaches your action.
-  - Hint: with `useActionState`, the action gets `prevState` first and `formData` second.
-- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
-> Q1. In step 2, which `not-found.tsx` was shown, and why that one?
+> Q1. In step 2, which 404 page was shown, and why that one?
 >
-> Q2. In step 4, why didn't `error.tsx` catch the error from `onClick`?
+> Q2. In step 4, why didn't your error screen catch the error from the click?
 >
 > Q3. The docs split errors into "expected errors" and "uncaught exceptions". Which one was step 3, which one was step 5, and how is each handled?
+
+<details>
+<summary>Hints (open only when stuck)</summary>
+
+**Step 1**
+- The site's 404 is `src/app/not-found.tsx`.
+
+**Step 2**
+- `notFound()` from `next/navigation` shows the nearest `not-found.tsx`.
+- Put a `not-found.tsx` next to the `post` page.
+
+**Step 3**
+- The crashing part is a client component with an `explode` state. If `explode` is true, `throw new Error("Boom")` before the `return`.
+- The error screen is `error.tsx` next to the `crash` page. It must be a client component.
+- Its props: `{ error, retry }: { error: unknown; retry: () => void }`. It's `retry`, not `reset` (older tutorials use `reset`).
+- `error` is `unknown`. Show it with `error instanceof Error ? error.message : String(error)`.
+- In dev, Next.js shows its own red error overlay first. Close it to see your `error.tsx`.
+
+**Step 4**
+- `onClick={() => { throw new Error("Click boom") }}`
+
+**Step 5**
+- Server side: an `actions.ts` with `'use server'`, exporting `saveName(prevState: { message: string }, formData: FormData)`. It returns `{ message: "..." }` in both cases.
+- Client side: a form component that uses `useActionState` (from `react`): `const [state, formAction, pending] = useActionState(saveName, { message: "" })`. Put `action={formAction}` on the form, show `state.message`, and `disabled={pending}` on the button.
+- With `useActionState`, the action gets `prevState` first and `formData` second.
+- Don't add `required` to the input, or the browser blocks the empty submit before it reaches the server.
+
+</details>
 
 ---
 
 ## 10 — Caching
 
-Docs:
+**What you're building:** a page that shows two clocks side by side. One shows a fresh time on every reload, the other is cached and stays the same for a while. Then the same idea for fetched data.
 
+Docs:
 - https://nextjs.org/docs/app/getting-started/caching
 - https://nextjs.org/docs/app/api-reference/functions/cacheLife
 
-- [ ] 1. In `10-caching/page.tsx`, make a server component `Now` that renders `new Date().toLocaleTimeString()`. Render it and open the page.
+- [ ] 1. On the lesson 10 page, show the current time, rendered on the server. Open the page.
   - Done when: the dev overlay shows a "blocking-prerender-current-time" insight. Read its fix cards.
-- [ ] 2. Fix it the first way: make `Now` `async`, add `await connection()` (from `next/server`) as its first line, and wrap `<Now />` in `<Suspense>`. Reload the page a few times.
+- [ ] 2. Fix it so the time is fresh on every reload.
   - Done when: the time changes on every reload, and the insight is gone.
-- [ ] 3. Fix it the second way: make a component `CachedNow` with `'use cache'` and `cacheLife('minutes')` (from `next/cache`) at the top, showing the same time. Render it next to `<Now />`. Reload a few times within one minute.
-  - Done when: `Now` changes on every reload, but `CachedNow` stays the same.
-  - Hint: cached components must be `async`.
-  - Hint: saving the file resets the cache in dev. Reload without editing.
-- [ ] 4. Create `10-caching/data.ts` with `getPosts()`: `'use cache'`, `cacheLife('hours')`, fetch `https://api.vercel.app/blog`, and return `{ posts, fetchedAt: new Date().toLocaleTimeString() }`. Show `fetchedAt` and 5 titles in the page.
-  - Done when: `fetchedAt` stays the same across reloads.
+- [ ] 3. Add a second clock next to it that is cached for a few minutes.
+  - Done when: the first clock changes on every reload, but the second one stays the same (reload a few times within one minute).
+- [ ] 4. Make a data function that fetches the blog posts and is cached for hours. It also returns the time it actually fetched. Show that time and 5 titles on the page.
+  - Done when: the fetched time stays the same across reloads.
 - [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
-> Q1. `connection()` + `<Suspense>` vs `'use cache'`: who sees which time? (See "Random values and timestamps" in the docs.)
+> Q1. The fresh clock vs the cached clock: who sees which time? (See "Random values and timestamps" in the docs.)
 >
 > Q2. What do `stale`, `revalidate`, and `expire` mean in `cacheLife('minutes')`? Which profile is used if you don't call `cacheLife` at all?
 >
 > Q3. Step 3 is "UI-level" caching and step 4 is "data-level" caching. When would you pick each one?
+
+<details>
+<summary>Hints (open only when stuck)</summary>
+
+**Step 1**
+- `new Date().toLocaleTimeString()` inside a server component.
+
+**Step 2**
+- Make the clock component `async` and call `await connection()` (from `next/server`) as its first line.
+- Wrap the clock in `<Suspense>` in the page.
+
+**Step 3**
+- A second clock component with `'use cache'` and `cacheLife('minutes')` (from `next/cache`) at the top of its body.
+- Cached components must be `async`.
+- Saving the file resets the cache in dev. Reload without editing.
+
+**Step 4**
+- A `data.ts` with `getPosts()`: `'use cache'`, `cacheLife('hours')`, fetch, and `return { posts, fetchedAt: new Date().toLocaleTimeString() }`.
+
+</details>
 
 ---
 

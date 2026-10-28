@@ -28,7 +28,7 @@ const lesson = [
     title: "useState and useRef",
   },
   {
-    url: "/08-search-params-and-userouter",
+    url: "/08-search-params",
     title: "Search Params and useRouter",
   },
   {

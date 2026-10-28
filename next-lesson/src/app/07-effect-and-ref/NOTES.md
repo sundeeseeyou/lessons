@@ -18,7 +18,7 @@
 ## Implementation:
 
 - preparation to useRef or useEffect `import { useRef , useEffect } from "react";` both hooks, must use the "use client";
-- Syntax of useRef `const ref = useRef<TypeOfComponent>(null)`
+- Syntax of useRef `const ref = useRef<TypeOfElement>(null)`
   <!-- FIX: it's the type of the HTML ELEMENT, not a component: useRef<HTMLInputElement>, useRef<HTMLDivElement>, useRef<HTMLVideoElement>. -->
 - Syntax of useEffect
 
