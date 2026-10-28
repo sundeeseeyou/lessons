@@ -22,7 +22,7 @@ export default function SelectOpt() {
         <select
           name="sort"
           id="sort"
-          onChange={(e) => router.push(path + "?sort=" + e.target.value)}
+          onChange={(e) => router.replace(path + "?sort=" + e.target.value)}
           className="px-6 py-2 bg-gray-200 border rounded-md"
         >
           {opt.map((x) => (

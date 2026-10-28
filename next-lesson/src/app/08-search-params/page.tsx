@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import SelectOpt from "./sort-buttons";
+import SelectOpt from "./select-option";
 import CurrentSort from "./current-sort";
 import PostList from "./post-lits";
 import LoadingSkeleton from "@/components/LoadingSkeleton";

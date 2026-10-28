@@ -181,8 +181,8 @@ Docs:
   - Done when: clicking "A–Z" logs `asc` in the terminal, and "Z–A" logs `desc`.
 - [x] 3c. Sort the titles before showing them: `asc` → A to Z, `desc` → Z to A, no sort → the API's order.
   - Done when: the buttons reorder the list.
-- [ ] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change the buttons so they *replace* the current history entry instead of adding a new one, and try Back again.
-- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change the buttons so they *replace* the current history entry instead of adding a new one, and try Back again.
+- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
