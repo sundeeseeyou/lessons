@@ -1,0 +1,93 @@
+# Root .gitignore for all lesson projects.
+# Patterns without a leading "/" apply in every subfolder.
+
+# ── OS / editor ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ── Secrets / env (never commit) ────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.keystore
+key.properties
+
+# ── Claude Code local settings ──────────────────────────
+.claude/settings.local.json
+
+# ── Node / Bun / package managers ───────────────────────
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
+*.log
+
+# ── Build outputs (Vite, React, Lynx, Astro, Elysia, Electrobun, Flutter) ──
+dist/
+build/
+out/
+artifacts/
+
+# ── Framework caches ────────────────────────────────────
+# Next.js
+.next/
+next-env.d.ts
+# Astro / EmDash
+.astro/
+# SvelteKit
+.svelte-kit/
+# Turbo / misc caches
+.turbo/
+.cache/
+.eslintcache
+*.tsbuildinfo
+
+# ── Deploy platforms ────────────────────────────────────
+.vercel/
+.netlify/
+.wrangler/
+
+# ── Databases (Prisma / Payload / SQLite) ───────────────
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+# Payload uploads
+media/
+
+# ── Testing ─────────────────────────────────────────────
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# ── Flutter / Dart ──────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+**/android/.gradle/
+**/android/local.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+*.iml
