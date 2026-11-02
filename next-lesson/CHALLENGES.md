@@ -242,7 +242,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
   - Done when: `/09-error-handling/post` shows the lesson's 404, not the site's. Then change `"nope"` to `"hello"` and the post shows.
 - [x] 3. Make the `crash` page with an "Explode" button. Clicking it makes the component crash. Instead of a broken page, the user sees a friendly error screen with the error message and a "Try again" button that brings the "Explode" button back.
   - Done when: "Explode" shows your error screen, and "Try again" brings the button back.
-- [ ] 4. On the `crash` page, add a second button that throws an error from inside its click handler. Click it and watch what happens (and what doesn't).
+- [x] 4. On the `crash` page, add a second button that throws an error from inside its click handler. Click it and watch what happens (and what doesn't).
 - [ ] 5. Make the `form` page: a form with a name input. The check happens on the server. Submitting it empty shows "Name is required". Submitting a name shows "Saved: <name>". The submit button is disabled while it's saving.
   - Done when: an empty submit shows "Name is required", and a filled one shows "Saved: ...".
 - [ ] 6. Write `NOTES.md` (with quiz answers) + commit.

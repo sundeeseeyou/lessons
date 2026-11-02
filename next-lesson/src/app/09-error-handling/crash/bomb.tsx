@@ -13,7 +13,6 @@ export default function Bomb() {
 
   function KaboomHandler() {
     throw new Error("Kaboom");
-    // console.log(explode);
   }
 
   return (
