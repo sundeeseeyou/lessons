@@ -243,7 +243,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 - [x] 3. Make the `crash` page with an "Explode" button. Clicking it makes the component crash. Instead of a broken page, the user sees a friendly error screen with the error message and a "Try again" button that brings the "Explode" button back.
   - Done when: "Explode" shows your error screen, and "Try again" brings the button back.
 - [x] 4. On the `crash` page, add a second button that throws an error from inside its click handler. Click it and watch what happens (and what doesn't).
-- [ ] 5. Make the `form` page: a form with a name input. The check happens on the server. Submitting it empty shows "Name is required". Submitting a name shows "Saved: <name>". The submit button is disabled while it's saving.
+- [x] 5. Make the `form` page: a form with a name input. The check happens on the server. Submitting it empty shows "Name is required". Submitting a name shows "Saved: <name>". The submit button is disabled while it's saving.
   - Done when: an empty submit shows "Name is required", and a filled one shows "Saved: ...".
 - [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 
@@ -326,14 +326,47 @@ Docs:
 **Step 2**
 - Make the clock component `async` and call `await connection()` (from `next/server`) as its first line.
 - Wrap the clock in `<Suspense>` in the page.
+- Starter (`fresh-clock.tsx`):
+  ```tsx
+  import { connection } from "next/server";
+
+  export default async function FreshClock() {
+    await connection();
+    return <p>Fresh: {new Date().toLocaleTimeString()}</p>;
+  }
+  ```
+  In the page: `<Suspense fallback={<p>...</p>}><FreshClock /></Suspense>`.
 
 **Step 3**
 - A second clock component with `'use cache'` and `cacheLife('minutes')` (from `next/cache`) at the top of its body.
 - Cached components must be `async`.
 - Saving the file resets the cache in dev. Reload without editing.
+- Starter (`cached-clock.tsx`):
+  ```tsx
+  import { cacheLife } from "next/cache";
+
+  export default async function CachedClock() {
+    "use cache";
+    cacheLife("minutes");
+    return <p>Cached: {new Date().toLocaleTimeString()}</p>;
+  }
+  ```
 
 **Step 4**
 - A `data.ts` with `getPosts()`: `'use cache'`, `cacheLife('hours')`, fetch, and `return { posts, fetchedAt: new Date().toLocaleTimeString() }`.
+- Starter (`data.ts`):
+  ```ts
+  import { cacheLife } from "next/cache";
+
+  export async function getPosts() {
+    "use cache";
+    cacheLife("hours");
+    const res = await fetch("https://api.vercel.app/blog");
+    const posts: { title: string }[] = await res.json();
+    return { posts, fetchedAt: new Date().toLocaleTimeString() };
+  }
+  ```
+  In the page: `const { posts, fetchedAt } = await getPosts()`, then show `fetchedAt` and `posts.slice(0, 5)`.
 
 </details>
 
