@@ -245,7 +245,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 - [x] 4. On the `crash` page, add a second button that throws an error from inside its click handler. Click it and watch what happens (and what doesn't).
 - [x] 5. Make the `form` page: a form with a name input. The check happens on the server. Submitting it empty shows "Name is required". Submitting a name shows "Saved: <name>". The submit button is disabled while it's saving.
   - Done when: an empty submit shows "Name is required", and a filled one shows "Saved: ...".
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -295,13 +295,30 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 - `cacheLife()`: a function from `next/cache`, called right after `'use cache'`. It says how long to remember: `'minutes'`, `'hours'`, `'days'`, and so on.
 - The dev overlay "insight": when Next.js can't pre-build part of a page, the dev overlay shows a card that names the problem and suggests fixes.
 
+**How it works (read this first)**
+
+Next.js wants to build every page *in advance*, before anyone visits. Think of a printed flyer: print once, hand the same copy to everyone, super fast. This is called **prerendering**. Your lesson 01–09 pages all got printed this way without you noticing.
+
+A clock breaks the flyer idea. If you print "14:03:21" today, everyone tomorrow still gets "14:03:21". Next.js knows that `new Date()` / `Date.now()` inside a server component means "this can't be printed in advance", so in dev it stops and shows an **insight card** telling you to choose. There are only two choices, and this lesson makes you try both:
+
+| Choice | What you write | What it means | Analogy |
+|---|---|---|---|
+| Fresh every visit | `await connection()` as the first line of an `async` component, and wrap it in `<Suspense>` | Don't print this part. Build it when the visitor arrives. | A barista writing your name on the cup |
+| Cached for a while | `'use cache'` then `cacheLife('minutes')` as the first lines of an `async` component or function | Print it, keep the copy for N minutes, then print a new one | A café's "soup of the day" board |
+
+Why `<Suspense>` for the fresh part? Because the rest of the page is still a flyer. Suspense marks the one hole in the flyer ("time goes here") so the flyer can still be printed with the hole left blank. Same idea as the `useSearchParams` Suspense in lesson 08.
+
+Why `async`? Both `connection()` and `'use cache'` need the component to be able to wait, and only `async` functions can `await`.
+
+One more rule: this all applies to **server** components. A `'use client'` component is not what this lesson is about, so do not put `'use client'` on the lesson 10 page.
+
 Docs:
 - https://nextjs.org/docs/app/getting-started/caching
 - https://nextjs.org/docs/app/api-reference/functions/cacheLife
 
-- [ ] 1. On the lesson 10 page, show the current time, rendered on the server. Open the page.
+- [x] 1. On the lesson 10 page, show the current time, rendered on the server. Open the page.
   - Done when: the dev overlay shows a "blocking-prerender-current-time" insight. Read its fix cards.
-- [ ] 2. Fix it so the time is fresh on every reload.
+- [x] 2. Fix it so the time is fresh on every reload.
   - Done when: the time changes on every reload, and the insight is gone.
 - [ ] 3. Add a second clock next to it that is cached for a few minutes.
   - Done when: the first clock changes on every reload, but the second one stays the same (reload a few times within one minute).
