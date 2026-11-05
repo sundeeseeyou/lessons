@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import FreshClock from "./FreshClock";
 import CachedClock from "./CachedClock";
+import CachedPost from "./cached-posts";
 
 export default function LessonTen() {
   return (
@@ -12,6 +13,8 @@ export default function LessonTen() {
         </Suspense>
         <CachedClock />
       </div>
+
+      <CachedPost />
     </div>
   );
 }

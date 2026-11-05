@@ -320,19 +320,19 @@ Docs:
   - Done when: the dev overlay shows a "blocking-prerender-current-time" insight. Read its fix cards.
 - [x] 2. Fix it so the time is fresh on every reload.
   - Done when: the time changes on every reload, and the insight is gone.
-- [ ] 3. Add a second clock next to it that is cached for a few minutes.
+- [x] 3. Add a second clock next to it that is cached for a few minutes.
   - Done when: the first clock changes on every reload, but the second one stays the same (reload a few times within one minute).
-- [ ] 4. Make a data function that fetches the blog posts and is cached for hours. It also returns the time it actually fetched. Show that time and 5 titles on the page.
-  - Done when: the fetched time stays the same across reloads.
+- [x] 4. Step 3 cached a *component*. Now cache *data* instead. In a `data.ts`, write `getPosts()`: a function (not a component) that fetches the blog posts and returns `{ posts, fetchedAt }`, where `fetchedAt` is the time the fetch really ran. Cache this function for hours. Then make a plain component (no `'use cache'`) that calls `getPosts()` and shows "Fetched at: ..." once, plus the first 5 titles.
+  - Done when: "Fetched at" stays the same across reloads. If it changes, the fetch ran again, so the cache is not on the function.
 - [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
-> Q1. The fresh clock vs the cached clock: who sees which time? (See "Random values and timestamps" in the docs.)
+> Q1. You open the lesson 10 page at 14:00:00. A friend opens the same page at 14:00:30. What time does each of you see on the Fresh clock? What time does each of you see on the Cached clock? Why are the two clocks different?
 >
-> Q2. What do `stale`, `revalidate`, and `expire` mean in `cacheLife('minutes')`? Which profile is used if you don't call `cacheLife` at all?
+> Q2. `cacheLife('minutes')` is a preset made of three durations: `stale`, `revalidate`, and `expire`. Open the `cacheLife` docs and find the table of presets. For each of the three, write in your own words: "when this much time has passed, what happens?" Then: if you write `'use cache'` but never call `cacheLife`, which preset do you get?
 >
-> Q3. Step 3 is "UI-level" caching and step 4 is "data-level" caching. When would you pick each one?
+> Q3. In step 3 you cached a component (`CachedClock`). In step 4 you cached a data function (`getPost`). Imagine a second page also needs the blog posts. Which of the two ways lets that second page reuse the cache, and why? Then give one case where caching the whole component is the better pick.
 
 <details>
 <summary>Hints (open only when stuck)</summary>
