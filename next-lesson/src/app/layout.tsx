@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Header from "@/components/navigation/Header";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Gabarito, Plus_Jakarta_Sans, Fira_Code } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/app/11-use-context/ThemeProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const gabaritoSans = Gabarito({
+  variable: "--font-gabarito-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta-sans",
+  subsets: ["latin"],
+});
+
+const firaCode = Fira_Code({
+  variable: "--font-fira-mono",
   subsets: ["latin"],
 });
 
@@ -28,11 +34,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${gabaritoSans.variable} ${jakartaSans.variable} ${firaCode.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
-        <main>{children}</main>
+        <ThemeProvider>
+          <Header />
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

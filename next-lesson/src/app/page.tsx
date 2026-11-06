@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <section className="flex w-full lg:max-w-360 flex-col items-center justify-start gap-8 p-16 mx-auto sm:items-start">
       <div className="flex justify-start align-center">
-        <h1 className="text-4xl font-bold">Table of Lessons</h1>
+        <h1 className="text-4xl font-bold font-heading">Table of Lessons</h1>
       </div>
       <nav className="flex flex-col justify-start items-start space-y-4 px-8 py-4 border">
         <ol className="space-y-6 pl-6 list-decimal">

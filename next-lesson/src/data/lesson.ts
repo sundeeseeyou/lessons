@@ -25,7 +25,7 @@ const lesson = [
   },
   {
     url: "/07-effect-and-ref",
-    title: "useState and useRef",
+    title: "useEffect and useRef",
   },
   {
     url: "/08-search-params",
@@ -38,6 +38,26 @@ const lesson = [
   {
     url: "/10-caching",
     title: "Caching",
+  },
+  {
+    url: "/11-use-context",
+    title: "useContext",
+  },
+  {
+    url: "/12-use-reducer",
+    title: "useReducer",
+  },
+  {
+    url: "/13-custom-hooks",
+    title: "Custom Hooks",
+  },
+  {
+    url: "/14-metadata",
+    title: "Metadata and Share Previews",
+  },
+  {
+    url: "/15-route-handlers",
+    title: "Route Handlers",
   },
 ];
 

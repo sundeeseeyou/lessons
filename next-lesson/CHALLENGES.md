@@ -405,16 +405,36 @@ Docs:
 
 Docs: https://react.dev/learn/passing-data-deeply-with-context · https://tailwindcss.com/docs/dark-mode
 
-- [ ] 1. Add lessons 11–15 to the home menu. Use these folder names: `11-use-context`, `12-use-reducer`, `13-custom-hooks`, `14-metadata`, `15-route-handlers`.
+**How it works (read this first)**
+
+The header and the page are neighbours, so they can't pass props to each other. Context lets one component above both share a value with everything below it.
+
+```
+RootLayout
+└─ ThemeProvider        <- holds the state, pins it
+   ├─ Header
+   │  └─ ThemeToggle    <- reads it, flips it
+   └─ main
+      └─ lesson 11 page
+         └─ ThemeLabel  <- reads it
+```
+
+Three parts: `createContext` makes the board, the provider pins a value, `useContext` reads it.
+
+- [x] 1. Add lessons 11–15 to the home menu. Use these folder names: `11-use-context`, `12-use-reducer`, `13-custom-hooks`, `14-metadata`, `15-route-handlers`.
   - Done when: home shows 15 links.
-- [ ] 2. Make a theme provider: a client component that remembers whether the theme is "light" or "dark", and puts both the theme and a way to switch it on the noticeboard. Wrap the whole site with it in the root layout, header included.
-  - Done when: the site looks exactly the same and has no errors. (Nothing visible yet. You only built the noticeboard.)
-- [ ] 3. Make a theme toggle button and put it in the header. It reads the theme from the noticeboard, shows it ("Light" / "Dark"), and switches it when clicked.
-  - Done when: the label flips when you click, and it stays flipped when you open another lesson.
-- [ ] 4. Make the theme actually paint. Whenever the theme changes, put the `dark` class on `<html>` (or take it off). Teach Tailwind to follow that class. Then make a card on the lesson 11 page that is light in light mode and dark in dark mode.
-  - Done when: the toggle changes the card's colors.
-- [ ] 5. Remember the choice. Save the theme in the browser when it changes, and read it back when the site opens.
-  - Done when: pick dark, reload, still dark. (A quick flash of light on reload is normal for now. That's quiz Q3.)
+- [x] 2a. Create the context, default `"light"`. Make `ThemeLabel` that reads it. Show it on the lesson 11 page.
+  - Done when: the page shows "Theme: light".
+- [ ] 2b. Make `ThemeProvider` that pins `"dark"`. Wrap the site with it in the root layout.
+  - Done when: the label says "Theme: dark".
+- [ ] 2c. Swap `"dark"` for state. Pin the theme and a function that flips it.
+  - Done when: the label says "Theme: light" again.
+- [ ] 3. Make `ThemeToggle` in the header. It shows the theme and flips it on click.
+  - Done when: clicking it changes the label on the lesson 11 page.
+- [ ] 4. When the theme changes, add or remove the `dark` class on `<html>`. Make Tailwind follow that class. Add a card that changes colour.
+  - Done when: the toggle changes the card's colours.
+- [ ] 5. Save the theme in the browser. Read it back when the site opens.
+  - Done when: pick dark, reload, still dark. A light flash on reload is normal, see Q3.
 - [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
@@ -428,14 +448,80 @@ Docs: https://react.dev/learn/passing-data-deeply-with-context · https://tailwi
 <details>
 <summary>Hints (open only when stuck)</summary>
 
-**Step 2**
-- One file, e.g. `src/components/ThemeProvider.tsx`, with `'use client'`.
-- `export const ThemeContext = createContext(...)` with a default value, then a `ThemeProvider({ children })` component that holds `useState` and renders `<ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>`.
-- In `src/app/layout.tsx`, wrap everything inside `<body>` (Header and `<main>`) with `<ThemeProvider>`.
+**Step 2a**
+- You already have the file: `src/app/11-use-context/ThemeContext.tsx`. Keep it there.
+- The context's name must start with a capital letter: `ThemeContext`, not `themeContext`. In step 2b you use it as a JSX tag, and React treats lowercase tags as plain HTML.
+  ```tsx
+  "use client";
+  import { createContext } from "react";
+
+  export const ThemeContext = createContext("light");
+  ```
+- The reader, `src/app/11-use-context/ThemeLabel.tsx`. Hooks need a client component.
+  ```tsx
+  "use client";
+  import { useContext } from "react";
+  import { ThemeContext } from "./ThemeContext";
+
+  export default function ThemeLabel() {
+    const theme = useContext(ThemeContext);
+    return <p>Theme: {theme}</p>;
+  }
+  ```
+- Then render `<ThemeLabel />` in the lesson 11 `page.tsx`.
+
+**Step 2b**
+- In `src/app/11-use-context/ThemeProvider.tsx`, with `"use client"` on line 1 and `import { ThemeContext } from "./ThemeContext"`. `children` is "whatever is between my tags" (same as a layout).
+  ```tsx
+  export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+    return <ThemeContext value="dark">{children}</ThemeContext>;
+  }
+  ```
+- In `src/app/layout.tsx`, wrap what is inside `<body>`:
+  ```tsx
+  <body className="min-h-full flex flex-col">
+    <ThemeProvider>
+      <Header />
+      <main>{children}</main>
+    </ThemeProvider>
+  </body>
+  ```
+- Import it as a default import: `import ThemeProvider from "@/app/11-use-context/ThemeProvider"`.
+
+**Step 2c**
+- In `ThemeContext.tsx`: the board now holds a pair, not a word, so the default value and its type change too:
+  ```tsx
+  type ThemeValue = { theme: string; toggleTheme: () => void };
+
+  export const ThemeContext = createContext<ThemeValue>({
+    theme: "light",
+    toggleTheme: () => {},
+  });
+  ```
+- In `ThemeProvider.tsx`: the provider holds the state (lesson 06) and pins the pair. Import `useState` from `react`.
+  ```tsx
+  export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+    const [theme, setTheme] = useState("light");
+    const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
+    return <ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>;
+  }
+  ```
+- In `ThemeLabel`, the reader now gets the pair: `const { theme } = useContext(ThemeContext);`
 
 **Step 3**
-- A client component, e.g. `ThemeToggle.tsx`. `const { theme, toggleTheme } = useContext(ThemeContext)`.
-- Render it inside `Header.tsx`. Header can stay a server component (same idea as Counter in lesson 03).
+- A client component, e.g. `src/components/navigation/ThemeToggle.tsx`:
+  ```tsx
+  "use client";
+  import { useContext } from "react";
+  import { ThemeContext } from "@/app/11-use-context/ThemeContext";
+
+  export default function ThemeToggle() {
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    return <button onClick={toggleTheme}>{theme === "light" ? "Light" : "Dark"}</button>;
+  }
+  ```
+- Render `<ThemeToggle />` inside `Header.tsx`. Header can stay a server component (same idea as Counter in lesson 03).
 
 **Step 4**
 - In `globals.css`, after `@import "tailwindcss";`: `@custom-variant dark (&:where(.dark, .dark *));`
