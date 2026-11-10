@@ -36,10 +36,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${gabaritoSans.variable} ${jakartaSans.variable} ${firaCode.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col ">
         <ThemeProvider>
           <Header />
-          <main>{children}</main>
+          <main className="dark:bg-[#030303] dark:text-white">{children}</main>
         </ThemeProvider>
       </body>
     </html>

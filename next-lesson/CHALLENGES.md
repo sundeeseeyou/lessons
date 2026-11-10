@@ -425,13 +425,13 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
   - Done when: home shows 15 links.
 - [x] 2a. Create the context, default `"light"`. Make `ThemeLabel` that reads it. Show it on the lesson 11 page.
   - Done when: the page shows "Theme: light".
-- [ ] 2b. Make `ThemeProvider` that pins `"dark"`. Wrap the site with it in the root layout.
+- [x] 2b. Make `ThemeProvider` that pins `"dark"`. Wrap the site with it in the root layout.
   - Done when: the label says "Theme: dark".
-- [ ] 2c. Swap `"dark"` for state. Pin the theme and a function that flips it.
+- [x] 2c. Swap `"dark"` for state. Pin the theme and a function that flips it.
   - Done when: the label says "Theme: light" again.
-- [ ] 3. Make `ThemeToggle` in the header. It shows the theme and flips it on click.
+- [x] 3. Make `ThemeToggle` in the header. It shows the theme and flips it on click.
   - Done when: clicking it changes the label on the lesson 11 page.
-- [ ] 4. When the theme changes, add or remove the `dark` class on `<html>`. Make Tailwind follow that class. Add a card that changes colour.
+- [x] 4. When the theme changes, add or remove the `dark` class on `<html>`. Make Tailwind follow that class. Add a card that changes colour.
   - Done when: the toggle changes the card's colours.
 - [ ] 5. Save the theme in the browser. Read it back when the site opens.
   - Done when: pick dark, reload, still dark. A light flash on reload is normal, see Q3.
