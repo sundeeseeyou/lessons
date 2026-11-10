@@ -10,7 +10,13 @@ export default function ThemeProvider({
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") setTheme("dark");
+  }, []);
+
+  useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   function toggleTheme() {
