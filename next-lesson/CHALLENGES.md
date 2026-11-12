@@ -433,7 +433,7 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
   - Done when: clicking it changes the label on the lesson 11 page.
 - [x] 4. When the theme changes, add or remove the `dark` class on `<html>`. Make Tailwind follow that class. Add a card that changes colour.
   - Done when: the toggle changes the card's colours.
-- [ ] 5. Save the theme in the browser. Read it back when the site opens.
+- [x] 5. Save the theme in the browser. Read it back when the site opens.
   - Done when: pick dark, reload, still dark. A light flash on reload is normal, see Q3.
 - [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 

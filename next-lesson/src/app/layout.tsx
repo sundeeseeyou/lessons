@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/navigation/Header";
+import Footer from "@/components/navigation/Footer";
 import { Gabarito, Plus_Jakarta_Sans, Fira_Code } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/app/11-use-context/ThemeProvider";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ThemeProvider>
           <Header />
           <main className="dark:bg-[#030303] dark:text-white">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
