@@ -435,7 +435,7 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
   - Done when: the toggle changes the card's colours.
 - [x] 5. Save the theme in the browser. Read it back when the site opens.
   - Done when: pick dark, reload, still dark. A light flash on reload is normal, see Q3.
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 

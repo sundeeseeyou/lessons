@@ -6,7 +6,7 @@ export default async function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="flex flex-col justify-center items-center w-full h-16 border-t p-0">
+    <footer className="flex flex-col justify-center items-center w-full h-16 border-t p-0  border-t-gray-300 dark:bg-[#030303] dark:text-white transition-colors duration-100">
       <div className="flex flex-col justify-center items-center max-w-360 p-4 mx-auto">
         <p>{currentYear} © Bladjar | Jangan Berhenti Belajar</p>
       </div>
