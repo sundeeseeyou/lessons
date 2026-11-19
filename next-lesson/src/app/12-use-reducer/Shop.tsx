@@ -67,7 +67,7 @@ export default function Shop() {
       <h2>Produk</h2>
       {PRODUCTS.map((product) => (
         <div key={product.id}>
-          {product.name} - Rp{product.price}{" "}
+          {product.name} - Rp{product.price}
           <button onClick={() => dispatch({ type: "add", payload: product })}>
             Add to cart
           </button>
@@ -78,7 +78,7 @@ export default function Shop() {
       {cart.length === 0 && <p>Keranjang kosong</p>}
       {cart.map((item) => (
         <div key={item.id}>
-          {item.name} × {item.qty}{" "}
+          {item.name} × {item.qty}
           <button onClick={() => dispatch({ type: "remove", id: item.id })}>
             −
           </button>
