@@ -763,14 +763,14 @@ The hook file has no `"use client"`: it runs inside the components that call it,
 
 **Version A: without a custom hook** (`use-online-status.ts` stays empty)
 
-- [ ] 1. Make the badge: a client component that shows "Online" or "Offline" and updates by itself when the connection changes.
+- [x] 1. Make the badge: a client component that shows "Online" or "Offline" and updates by itself when the connection changes.
   - Done when: flipping DevTools Network to "Offline" changes the badge without reloading.
-- [ ] 2. Make a "Save" button in a second component that is disabled while offline. Copy the same online logic into it on purpose.
+- [x] 2. Make a "Save" button in a second component that is disabled while offline. Copy the same online logic into it on purpose.
   - Done when: the button greys out when offline. (Notice you wrote the same code twice.)
 
 **Version B: with a custom hook**
 
-- [ ] 3. Move that logic into your own hook in its own file, and use the hook in both components instead.
+- [x] 3. Move that logic into your own hook in its own file, and use the hook in both components instead.
   - Done when: both still work, and the online logic exists in one place only.
 - [ ] 4. Write `NOTES.md` (with quiz answers) + commit.
 
