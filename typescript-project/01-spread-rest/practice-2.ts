@@ -33,7 +33,9 @@ const todos = [
   { id: 1, text: "buy milk", done: false },
   { id: 2, text: "learn rest", done: false },
 ];
-const updatedTodos = null;
+const updatedTodos = todos.map((todo) =>
+  todo.id === 2 ? { ...todo, done: true } : todo,
+);
 console.log("12:", updatedTodos, todos[1].done);
 // Expected: 12: [ { id: 1, text: 'buy milk', done: false }, { id: 2, text: 'learn rest', done: true } ] false
 
@@ -42,8 +44,8 @@ console.log("12:", updatedTodos, todos[1].done);
 // 13. greetAll takes ONE greeting, then ANY number of names.
 //     Return one string per name: "Hi, Sandi!".
 //     Hint: rest must be the LAST parameter. Then .map() + a template literal.
-function greetAll(greeting: string) {
-  return null;
+function greetAll(greeting: string, ...names: string[]) {
+  return names.map((name) => `${greeting}, ${name}!`);
 }
 console.log("13:", greetAll("Hi", "Sandi", "Budi", "Ani"));
 // Expected: 13: [ 'Hi, Sandi!', 'Hi, Budi!', 'Hi, Ani!' ]
@@ -51,6 +53,6 @@ console.log("13:", greetAll("Hi", "Sandi", "Budi", "Ani"));
 // 14. A post came from the database. Make `editable` = only the fields a user may edit
 //     in a form: drop BOTH `id` and `createdAt` in one line.
 const post = { id: 7, createdAt: "2026-10-28", title: "Hello", body: "World" };
-const editable = null;
+const { id, createdAt, ...editable } = post;
 console.log("14:", editable);
 // Expected: 14: { title: 'Hello', body: 'World' }

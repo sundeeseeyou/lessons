@@ -41,10 +41,10 @@ Why rest must be last and only one: it catches the _leftovers_, and leftovers ar
 
 Rest only **receives / unpacks**, so it only lives on the receiving side:
 
-| Place | Example | Why it's "receiving" |
-| ----- | ------- | -------------------- |
-| Destructuring (left of `=`) | `const { password, ...safeUser } = user` | the value on the right gets unpacked into the left |
-| Function parameters (when you write the function) | `function sum(...nums: number[])` | the arguments passed in get unpacked into the parameters |
+| Place                                             | Example                                  | Why it's "receiving"                                     |
+| ------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------- |
+| Destructuring (left of `=`)                       | `const { password, ...safeUser } = user` | the value on the right gets unpacked into the left       |
+| Function parameters (when you write the function) | `function sum(...nums: number[])`        | the arguments passed in get unpacked into the parameters |
 
 Anywhere else, `...` is **spread**.
 
@@ -86,6 +86,15 @@ And one more:
 | Array destructuring `[first, ...others]`         | an **array**        |
 | Object destructuring `{ password, ...safeUser }` | an **object**       |
 | Function parameters `function sum(...nums)`      | always an **array** |
+
+### Rest destructuring,
+
+```
+const post = { id: 7, createdAt: "2026-10-28", title: "Hello", body: "World" };
+const { id, createdAt, ...editable } = post;
+```
+
+the one that being mentioned inside the { } destructure, it will be deleted, not inputted inside post
 
 ### Trap: spread only copies the first layer
 
