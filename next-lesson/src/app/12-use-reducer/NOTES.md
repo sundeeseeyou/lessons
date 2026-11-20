@@ -18,6 +18,7 @@ const [state, dispatch] = useReducer(reducer, initialArg, init?);
 //gunakan juga switch() untuk menentukan output sesuai dengan case, pastikan diberi break agar tidak terjadi looping dan juga default dalam switch sebagai fallback.
 // diperlukan juga untuk memanggil dispatch
 ```
+
   <!-- FIX: switch bukan looping, jadi tidak ada risiko looping. Di dalam reducer, setiap case biasanya langsung `return stateBaru;` sehingga `break` tidak diperlukan karena return langsung menyelesaikan fungsi. `default` case memang wajib/sangat disarankan mengembalikan current state sebagai fallback jika action tidak dikenali. -->
 
 - pastikan initiate type terutama dalam epnggunaan typescript
