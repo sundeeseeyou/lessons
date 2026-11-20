@@ -772,7 +772,7 @@ The hook file has no `"use client"`: it runs inside the components that call it,
 
 - [x] 3. Move that logic into your own hook in its own file, and use the hook in both components instead.
   - Done when: both still work, and the online logic exists in one place only.
-- [ ] 4. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 4. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
