@@ -1,0 +1,13 @@
+{
+  // Only for type-checking in VS Code (red underlines). Node runs the files directly.
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "strict": true,
+    "noEmit": true,
+    "moduleDetection": "force",
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true
+  }
+}
