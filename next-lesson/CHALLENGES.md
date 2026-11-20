@@ -595,7 +595,34 @@ Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 
 **What you're building:** a small badge that says "Online" or "Offline", like WhatsApp's "connecting...". Plus a "Save" button that disables itself while you're offline. Then you move the shared logic into your own hook.
 
-**The story:** both the badge and the button need to know "am I online?". The first time, you'll write that logic twice and feel how annoying it is. Then you'll pack it into your own hook, `useOnlineStatus`, and both components just call it. A custom hook is a recipe: each component that uses it cooks its own copy.
+**The story:** both the badge and the button need to know "am I online?". The first time, you'll write that logic twice and feel how annoying it is. Then you'll pack it into your own hook, `useOnlineStatus`, and both components just call it.
+
+**You'll build the same thing twice, on purpose:**
+
+| | Version A: without a custom hook (long) | Version B: with a custom hook (short) |
+|---|---|---|
+| Steps | 1 and 2 | 3 |
+| Where the online logic lives | inside `OnlineBadge` **and** inside `SaveButton` (copied) | only in `use-online-status.ts` |
+| `OnlineBadge.tsx` | state + effect + `return <span>` | `useOnlineStatus()` + `return <span>` |
+| `SaveButton.tsx` | state + effect (copy) + `return <button>` | `useOnlineStatus()` + `return <button>` |
+| `use-online-status.ts` | not used yet | state + effect + `return isOnline` (no JSX) |
+
+Why both? Version A is how you'd normally start: logic lives in the component that needs it. You only extract a hook once a second component needs the same logic. Version A shows you the problem, and version B is the fix. Only the state + effect part moves into the hook. Each component keeps its own `return` with JSX.
+
+**How it works (read this first)**
+
+- **The problem.** Some values live in the browser and change by themselves: scroll position, window size, internet connection. A component that wants one of them needs three things: a `useState` to hold it, a `useEffect` that starts listening to the browser, and a cleanup that stops listening (lesson 07). If two components need the same value, you write those three things twice.
+- **A custom hook is cut and paste.** Cut the `useState` + `useEffect` lines out of the component, paste them into a function whose name starts with `use`, and `return` the value at the end. The component now calls your function, the same way it calls `useState`.
+- **The flow, every time:**
+
+| Moment | What happens |
+|---|---|
+| Component appears | state starts with its default value |
+| Right after that | the effect runs and starts listening to the browser |
+| The browser announces a change | your listener calls `setState`, the component re-renders with the new value |
+| Component disappears | the cleanup runs and stops listening |
+
+- **Analogy.** A school announces "the power is out!" through a speaker. Without a custom hook, every class writes its own rules for "how to listen to the speaker". With a custom hook, the teacher writes one SOP sheet, and every class just says "follow the SOP".
 
 **Built-in pieces you'll use:**
 - `navigator.onLine`: the browser tells you `true` / `false` right now.
@@ -605,10 +632,144 @@ Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 
 Docs: https://react.dev/learn/reusing-logic-with-custom-hooks
 
+### Worked example: `useScrollY` (read it first, or try it)
+
+**Scenario:** a long page shows "You scrolled N px" in the corner, and a "Back to top" button that only appears after you scroll down 300px. Both need the scroll position.
+
+To try it: put these files in `src/app/13-custom-hooks/example/`, open `/13-custom-hooks/example`, and scroll.
+
+**Version A: without a custom hook (the logic is written twice)**
+
+```tsx
+// example/ScrollLabel.tsx
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function ScrollLabel() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrollY(window.scrollY);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return <p className="fixed bottom-4 left-4">You scrolled {scrollY}px</p>;
+}
+```
+
+```tsx
+// example/BackToTop.tsx
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function BackToTop() {
+  const [scrollY, setScrollY] = useState(0); // same lines again...
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrollY(window.scrollY);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (scrollY < 300) return null;
+
+  return (
+    <button
+      className="fixed bottom-4 right-4"
+      onClick={() => window.scrollTo({ top: 0 })}
+    >
+      Back to top
+    </button>
+  );
+}
+```
+
+```tsx
+// example/page.tsx
+import ScrollLabel from "./ScrollLabel";
+import BackToTop from "./BackToTop";
+
+export default function ScrollExample() {
+  return (
+    <div className="h-[300vh] p-8">
+      <h1>Scroll down</h1>
+      <ScrollLabel />
+      <BackToTop />
+    </div>
+  );
+}
+```
+
+**Version B: with a custom hook (the logic lives in one place)**
+
+```ts
+// example/use-scroll-y.ts
+import { useState, useEffect } from "react";
+
+export function useScrollY() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrollY(window.scrollY);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return scrollY; // the component only needs the number
+}
+```
+
+```tsx
+// example/ScrollLabel.tsx
+"use client";
+
+import { useScrollY } from "./use-scroll-y";
+
+export default function ScrollLabel() {
+  const scrollY = useScrollY();
+  return <p className="fixed bottom-4 left-4">You scrolled {scrollY}px</p>;
+}
+```
+
+`BackToTop.tsx` changes the same way: delete its `useState` + `useEffect`, add `const scrollY = useScrollY();`.
+
+The hook file has no `"use client"`: it runs inside the components that call it, and those are already client components.
+
+### From the example to your challenge
+
+| Example | Your challenge |
+|---|---|
+| `scrollY`, starts at `0` | `isOnline`, starts at `true` |
+| 1 event: `"scroll"` | 2 events: `"online"` and `"offline"` |
+| 1 handler reads `window.scrollY` | 2 handlers: one sets `true`, one sets `false` |
+| 1 `addEventListener` + 1 `removeEventListener` | 2 of each |
+| `ScrollLabel` + `BackToTop` | `OnlineBadge` + `SaveButton` |
+| `BackToTop` hides itself with `return null` | `SaveButton` stays visible but gets `disabled` |
+| `use-scroll-y.ts` → `useScrollY()` | `use-online-status.ts` → `useOnlineStatus()` |
+
+### Challenge
+
+**Version A: without a custom hook** (`use-online-status.ts` stays empty)
+
 - [ ] 1. Make the badge: a client component that shows "Online" or "Offline" and updates by itself when the connection changes.
   - Done when: flipping DevTools Network to "Offline" changes the badge without reloading.
 - [ ] 2. Make a "Save" button in a second component that is disabled while offline. Copy the same online logic into it on purpose.
   - Done when: the button greys out when offline. (Notice you wrote the same code twice.)
+
+**Version B: with a custom hook**
+
 - [ ] 3. Move that logic into your own hook in its own file, and use the hook in both components instead.
   - Done when: both still work, and the online logic exists in one place only.
 - [ ] 4. Write `NOTES.md` (with quiz answers) + commit.
@@ -623,12 +784,11 @@ Docs: https://react.dev/learn/reusing-logic-with-custom-hooks
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
-- `useState(true)`, then a `useEffect` with `[]` that adds listeners for `"online"` and `"offline"` (each sets the state), and removes both in the cleanup.
+- Copy the version A `ScrollLabel` and change it using the table: rename the state, start with `true`, and use two handlers instead of one.
 - Start with `true`, not `navigator.onLine`: the component also renders on the server, where `navigator` doesn't exist.
 
 **Step 3**
-- A file like `use-online-status.ts`: `export function useOnlineStatus() { ...the state and effect...; return isOnline; }`.
-- In each component: `const isOnline = useOnlineStatus();`
+- Do exactly what version B does: cut the `useState` + `useEffect` into `use-online-status.ts`, `return isOnline;`, then `const isOnline = useOnlineStatus();` in each component.
 
 </details>
 
@@ -640,6 +800,21 @@ Docs: https://react.dev/learn/reusing-logic-with-custom-hooks
 
 **The story:** your root layout already has a title template (`%s | Bladjar`), so each page only has to fill in its own part. Then you'll make an "OG image": the picture that shows up in a link preview. Next.js can draw it for you from JSX.
 
+**How it works (read this first)**
+
+- **The problem.** Every page has a hidden `<head>` part that people don't see on the page, but Google, the browser tab and WhatsApp read it: `<title>`, `<meta name="description">`, `<meta property="og:image">`. In plain HTML you write those tags by hand on every page.
+- **In Next.js you don't write the tags.** You export an object called `metadata` from a `page.tsx` or `layout.tsx`, and Next.js writes the tags for you.
+- **Inheritance.** Metadata flows down the folders, like layouts. A page's metadata is merged with its layouts' metadata, and the closest one wins. That's why the root layout's template `%s | Bladjar` wraps every page's title.
+- **Three tools, pick by situation:**
+
+| Situation | Use |
+|---|---|
+| The title is always the same (`"Recipes"`) | `export const metadata = { ... }` |
+| The title depends on the URL or data (`/recipes/pancake` → `"Pancake"`) | `export async function generateMetadata()` |
+| You want a share image | a file named `opengraph-image.tsx` in that folder |
+
+- **Analogy.** A book in a library. The page content is what's inside the book. Metadata is the cover and the label on the spine: the title, a one-line summary, a cover picture. The librarian (Google) and your friends (WhatsApp) only see the cover before they open it.
+
 **Built-in pieces you'll use:**
 - `metadata`: an object you export from a `page.tsx` or `layout.tsx` (server components only). Next.js turns it into `<title>` and `<meta>` tags.
 - `title.template`: already in your root layout. A page's title gets slotted into `%s`.
@@ -649,13 +824,130 @@ Docs: https://react.dev/learn/reusing-logic-with-custom-hooks
 
 Docs: https://nextjs.org/docs/app/getting-started/metadata-and-og-images
 
+### Worked example: a small recipe section
+
+**Scenario:** a recipe section with a list page (`/14-metadata/example`), one page per recipe (`/14-metadata/example/pancake`), and a share image for the whole section.
+
+To try it: put these files in `src/app/14-metadata/example/`, open the pages, and look at the browser tab and DevTools → Elements → `<head>`.
+
+**1. Fixed title + description** (`metadata` object)
+
+```tsx
+// example/page.tsx
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Recipes",
+  description: "Simple recipes you can cook in 15 minutes.",
+};
+
+export default function RecipesPage() {
+  return (
+    <div className="p-8">
+      <h1>Recipes</h1>
+      <Link href="/14-metadata/example/pancake">Pancake</Link>
+      <Link href="/14-metadata/example/omelette">Omelette</Link>
+    </div>
+  );
+}
+```
+
+Result: the tab shows **"Recipes | Bladjar"**. You wrote `"Recipes"`, and the root layout's template added `" | Bladjar"`.
+
+**2. Title from the URL** (`generateMetadata`)
+
+```tsx
+// example/[slug]/page.tsx
+import type { Metadata } from "next";
+
+const recipes = [
+  { slug: "pancake", name: "Pancake", summary: "Fluffy pancakes in 10 minutes." },
+  { slug: "omelette", name: "Omelette", summary: "Three eggs, one pan." },
+];
+
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  return recipes.map((recipe) => ({ slug: recipe.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const recipe = recipes.find((r) => r.slug === slug);
+
+  return recipe
+    ? { title: `Recipe: ${recipe.name}`, description: recipe.summary }
+    : { title: "Recipe not found" };
+}
+
+export default async function RecipePage({ params }: Props) {
+  const { slug } = await params;
+  const recipe = recipes.find((r) => r.slug === slug);
+
+  return <h1 className="p-8">{recipe?.name ?? "Not found"}</h1>;
+}
+```
+
+Result: `/pancake` shows **"Recipe: Pancake | Bladjar"**, and `/omelette` shows **"Recipe: Omelette | Bladjar"**. One file, a different title per URL.
+
+**3. Share image** (`opengraph-image.tsx`)
+
+```tsx
+// example/opengraph-image.tsx
+import { ImageResponse } from "next/og";
+
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export const alt = "Recipes";
+
+export default function Image() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f97316",
+          color: "white",
+          fontSize: 120,
+          fontWeight: 700,
+        }}
+      >
+        Recipes
+      </div>
+    ),
+    size,
+  );
+}
+```
+
+Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that URL into a new tab and you see an orange picture with "Recipes". Inside `ImageResponse`, use inline `style` with `display: "flex"`. Tailwind classes don't work there.
+
+### From the example to your challenge
+
+| Example | Your challenge |
+|---|---|
+| 1 page gets `metadata` | every lesson page gets `metadata` |
+| title `"Recipes"` | title like `"Lesson 06 — useState"` |
+| a `page.tsx` that is a server component | if a lesson's `page.tsx` has `'use client'`, put `metadata` in that lesson's `layout.tsx` instead |
+| `generateMetadata` → `"Recipe: Pancake"` | lesson 01's `[slug]` → `"Lesson 01 — <post heading>"` |
+| `opengraph-image.tsx` inside `example/` (that section only) | `opengraph-image.tsx` in `src/app/` (the whole site) |
+| orange, text "Recipes" | your own color, text "Bladjar" + your site description as a second line |
+
+### Challenge
+
 - [ ] 1. Give every lesson page its own title, like "Lesson 06 — useState".
   - Done when: each lesson's browser tab shows "Lesson NN — ... | Bladjar".
 - [ ] 2. Add a one-line description to each lesson page.
   - Done when: DevTools → Elements → `<head>` shows a `<meta name="description">` with your text.
-- [ ] 3. Open lesson 01's `[slug]/page.tsx` and read its `generateMetadata` again. Visit two different slugs and compare their tab titles.
-- [ ] 4. Make a share image for the whole site: big "Bladjar" text on a colored background.
-  - Done when: `<head>` has an `og:image` tag, and opening that image URL shows your picture.
+- [ ] 3. Change lesson 01's `[slug]` title so it reads "Lesson 01 — <post heading>".
+  - Done when: two different slugs show two different tab titles, both starting with "Lesson 01 —".
+- [ ] 4. Make a share image for the whole site: big "Bladjar" text, with your site description as a smaller second line, on a colored background.
+  - Done when: `<head>` has an `og:image` tag on every page, and opening that image URL shows your picture.
 - [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
@@ -670,13 +962,15 @@ Docs: https://nextjs.org/docs/app/getting-started/metadata-and-og-images
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
-- In each lesson's `page.tsx`: `export const metadata: Metadata = { title: "Lesson 06 — useState" }`, with `import type { Metadata } from "next"`.
-- If a lesson's `page.tsx` is a client component, put the metadata in that lesson's `layout.tsx` instead.
+- Same as example part 1, without the `description` for now.
+- Error "You are attempting to export metadata from a component marked with use client"? Move the `metadata` export into that lesson's `layout.tsx`.
+
+**Step 3**
+- Lesson 01 already has a `generateMetadata`. Only the `title` string changes, like `` `Recipe: ${recipe.name}` `` in example part 2.
 
 **Step 4**
-- File: `src/app/opengraph-image.tsx`.
-- `export const size = { width: 1200, height: 630 }` and `export const contentType = "image/png"`.
-- `export default function Image() { return new ImageResponse(<div style={{ ... }}>Bladjar</div>, size) }`. Use `display: "flex"` and inline `style`, not Tailwind classes.
+- Same as example part 3, but the file goes in `src/app/opengraph-image.tsx`.
+- Two lines of text: the outer `div` gets `flexDirection: "column"`, with two child `div`s inside, each with its own `fontSize`.
 
 </details>
 
@@ -688,6 +982,22 @@ Docs: https://nextjs.org/docs/app/getting-started/metadata-and-og-images
 
 **The story:** in lesson 05, the form talked to the server through a server action, which only works inside your Next.js app. An API endpoint is a public door with an address: anything that can make an HTTP request (a browser, Postman, a phone app) can knock on it. You'll build the door, then knock on it from a page.
 
+**How it works (read this first)**
+
+- **The problem.** Pages return HTML, made for humans to look at. A phone app or another program doesn't want HTML: it wants plain data (JSON), and it wants to send data back.
+- **A `route.ts` file is a page that returns data instead of HTML.** The folder still decides the URL (`src/app/api/likes/route.ts` → `/api/likes`). Inside, you export functions named after HTTP methods: `GET` runs when someone reads, `POST` runs when someone sends.
+- **The flow of one request:**
+
+| Step | Who | What |
+|---|---|---|
+| 1 | Client (browser, Postman, phone app) | sends `POST /api/likes` with a body `{ "amount": 1 }` |
+| 2 | Next.js | sees `POST`, calls your `POST` function |
+| 3 | Your `POST` | reads the body, checks it, updates the data |
+| 4 | Your `POST` | answers with JSON and a status code (200 = ok, 400 = your request is wrong) |
+| 5 | Client | reads the status and the JSON, shows the result |
+
+- **Analogy.** A restaurant takeaway window. `GET` = "what's on the menu?", and they hand you the menu. `POST` = "I'd like to order this", and they take your order. If your order form is empty, they hand it back: "you didn't write anything" (status 400). The window doesn't care who's ordering: a person, a delivery driver, or an app.
+
 **Built-in pieces you'll use:**
 - `route.ts`: a special file name. Instead of a page, it answers HTTP requests at that folder's URL. A folder can have a `page.tsx` or a `route.ts`, not both.
 - `GET` / `POST`: you export functions with these names, and Next.js calls the matching one.
@@ -698,11 +1008,121 @@ Docs: https://nextjs.org/docs/app/getting-started/metadata-and-og-images
 
 Docs: https://nextjs.org/docs/app/getting-started/route-handlers
 
+### Worked example: a like counter API
+
+**Scenario:** a post has a like counter. The API stores one number. `GET` returns it, and `POST` adds an amount to it but refuses amounts below 1. A button on a page uses the API.
+
+To try it: create the files below, open `http://localhost:3000/api/likes` in the browser, then open `/15-route-handlers/example` and click the buttons.
+
+**1. The API**
+
+```ts
+// src/app/api/likes/route.ts
+import { connection } from "next/server";
+
+let likes = 0; // lives in server memory, resets when the dev server restarts
+
+export async function GET() {
+  await connection(); // answer fresh every time, don't pre-build
+  return Response.json({ likes });
+}
+
+export async function POST(request: Request) {
+  const body = await request.json(); // read what the client sent
+  const amount = Number(body.amount);
+
+  if (!amount || amount < 1) {
+    return Response.json(
+      { error: "amount must be 1 or more" },
+      { status: 400 },
+    );
+  }
+
+  likes += amount;
+  return Response.json({ likes });
+}
+```
+
+Test with Postman: method `POST`, URL `http://localhost:3000/api/likes`, Body → raw → JSON → `{ "amount": 2 }`. You get `{ "likes": 2 }`. Then send `{ "amount": 0 }`. You get status **400** and the error message.
+
+**2. A page that uses the API**
+
+```tsx
+// src/app/15-route-handlers/example/LikeButton.tsx
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function LikeButton() {
+  const [likes, setLikes] = useState(0);
+  const [error, setError] = useState("");
+
+  // load the current number once, when the component appears
+  useEffect(() => {
+    fetch("/api/likes")
+      .then((res) => res.json())
+      .then((data) => setLikes(data.likes));
+  }, []);
+
+  async function sendLike(amount: number) {
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error); // 400: show the API's message
+      return;
+    }
+
+    setError("");
+    setLikes(data.likes); // 200: show the new number
+  }
+
+  return (
+    <div className="flex flex-col gap-2 p-8">
+      <p>Likes: {likes}</p>
+      <button onClick={() => sendLike(1)}>+1</button>
+      <button onClick={() => sendLike(0)}>+0 (should fail)</button>
+      {error && <p className="text-red-600">{error}</p>}
+    </div>
+  );
+}
+```
+
+```tsx
+// src/app/15-route-handlers/example/page.tsx
+import LikeButton from "./LikeButton";
+
+export default function LikesExample() {
+  return <LikeButton />;
+}
+```
+
+Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page and the API are two different doors.
+
+### From the example to your challenge
+
+| Example | Your challenge |
+|---|---|
+| `src/app/api/likes/route.ts` | `src/app/api/todos/route.ts` |
+| data: one number, `let likes = 0` | data: an array, like lesson 05's todo list |
+| `GET` returns `{ likes }` | `GET` returns the todo list |
+| `POST` body `{ "amount": 1 }` | `POST` body `{ "text": "buy milk" }` |
+| `POST` adds to the number | `POST` pushes a new todo, returns the updated list |
+| rejects `amount < 1` | rejects empty text (also only spaces: use `.trim()`) |
+| page: two buttons with fixed amounts | page: an `<input>` + "Add" button that sends what you typed |
+| shows a number | shows a list (`.map`) |
+
+### Challenge
+
 - [ ] 1. Make `GET /api/todos`. It returns a todo list (keep it in an array in the same file, like lesson 05).
   - Done when: opening `http://localhost:3000/api/todos` in the browser shows JSON.
 - [ ] 2. Make `POST /api/todos`. It reads a todo text from the request body, adds it to the list, and sends back the updated list. Test it with Postman, then open the GET URL again.
   - Done when: after a POST in Postman, the GET URL shows the new todo.
-- [ ] 3. Reject empty todos. A POST with empty text gets a 400 status and an error message instead of being added.
+- [ ] 3. Reject empty todos. A POST with empty text (or only spaces) gets a 400 status and an error message instead of being added.
   - Done when: Postman shows status 400 and your message for an empty text.
 - [ ] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
   - Done when: adding a todo from the page works, and an empty one shows your error.
@@ -720,20 +1140,17 @@ Docs: https://nextjs.org/docs/app/getting-started/route-handlers
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
-- File: `src/app/api/todos/route.ts`. Not inside `15-route-handlers/`, because that folder has a `page.tsx`.
-- `export async function GET() { await connection(); return Response.json(todos); }`. Without `connection()`, the response can be pre-built once and never show new todos.
+- Copy example part 1's `GET` and swap `likes` for your array.
 
 **Step 2**
-- `export async function POST(request: Request) { const body = await request.json(); ... }`.
-- In Postman: method POST, Body → raw → JSON, e.g. `{ "text": "buy milk" }`.
+- Same shape as the example's `POST`, but read `body.text` and `push` a new todo instead of `likes += amount`.
 
 **Step 3**
-- `return Response.json({ error: "Text is required" }, { status: 400 })`.
+- `if (!text || text.trim() === "")` → return the 400, the same way the example does.
 
 **Step 4**
-- Load: a `useEffect` with `[]` that fetches and sets the list (lesson 07).
-- Add: an `async` click handler (lesson 04 talk): `await fetch("/api/todos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) })`.
-- Check `res.ok` (false on 400), then read `await res.json()` for either the list or the error.
+- Copy `LikeButton`'s structure: `useEffect` to load, an `async` function to POST, `res.ok` to tell 200 from 400.
+- The input is a controlled input (lesson 06): a `useState` for the text, then send `{ text }` instead of `{ amount }`.
 
 </details>
 
