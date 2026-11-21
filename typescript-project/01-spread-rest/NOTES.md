@@ -96,6 +96,8 @@ const { id, createdAt, ...editable } = post;
 
 the one that being mentioned inside the { } destructure, it will be deleted, not inputted inside post
 
+also, the most right rest will be replaced the left one. so the righter the better.
+
 ### Trap: spread only copies the first layer
 
 | Code                                                               | Result                                             |

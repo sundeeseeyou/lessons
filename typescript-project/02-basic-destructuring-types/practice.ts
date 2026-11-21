@@ -9,7 +9,13 @@
 // Destructuring = unpack values from an object/array into variables, in one line.
 // You write the SHAPE you want on the left of `=`, JavaScript fills it in.
 //
-//   { title }                → title = post.title
+// FIRST, LOOK AT THE SOURCE: object or array? The brackets must match it.
+//   source is an OBJECT  { title: "Hello" }   → use { }  → picks by NAME      { title }
+//   source is an ARRAY   ["ts", "beginner"]   → use [ ]  → picks by POSITION  [first]
+//   In the data below: draftPost = object, draftPost.author = object, draftPost.tags = ARRAY.
+//   Wrong bracket = no error from Node, just `undefined` (an array has no key called "mainTag").
+//
+//   { title }             → title = post.title
 //   { title: heading }       → heading = post.title   (rename, no `title` variable!)
 //   { author: { name } }     → name = post.author.name (nested)
 //   { status = "draft" }     → post.status, or "draft" if it's undefined (default)
@@ -121,18 +127,23 @@ console.log("1:", title, tags);
 
 // 2. From draftPost, unpack the author's name as `authorName`.   (like ex2: author → name)
 const {
-  author: { name: authName },
+  author: { name: authorName },
 } = draftPost;
-console.log("2:", authName);
+console.log("2:", authorName);
 
 // Expected: 2: Sandi
 
 // 3. Unpack `status` from BOTH posts, default "draft".   (like ex3)
+const { status = "draft" } = draftPost;
+const { status: liveStatus = "draft" } = livePost;
+console.log("3:", status, liveStatus);
 //    Tweak: the second one needs another name, or the two variables clash.
 //    Hover both: they must be `string`, not `string | undefined`.
 // Expected: 3: draft published
 
 // 4. From draftPost.tags, unpack the first tag as `mainTag`, the rest as `otherTags`.   (like ex4)
+const [mainTag, ...otherTags] = draftPost.tags;
+console.log("4:", mainTag, otherTags);
 // Expected: 4: ts [ 'beginner', 'destructuring' ]
 
 // 5. Write formatPost(post) → "[draft] Hello World by Sandi #ts".   (like ex5)
