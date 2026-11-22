@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import PostList from "./posts";
+
+export const metadata: Metadata = {
+  title: "Lesson 4 - Fetching Data",
+  description: "Fetch blog posts in a server component, with a loading state.",
+};
 
 export default function LessonFour() {
   return (

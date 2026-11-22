@@ -940,11 +940,11 @@ Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that U
 
 ### Challenge
 
-- [ ] 1. Give every lesson page its own title, like "Lesson 06 — useState".
+- [x] 1. Give every lesson page its own title, like "Lesson 06 — useState".
   - Done when: each lesson's browser tab shows "Lesson NN — ... | Bladjar".
-- [ ] 2. Add a one-line description to each lesson page.
+- [x] 2. Add a one-line description to each lesson page.
   - Done when: DevTools → Elements → `<head>` shows a `<meta name="description">` with your text.
-- [ ] 3. Change lesson 01's `[slug]` title so it reads "Lesson 01 — <post heading>".
+- [x] 3. Change lesson 01's `[slug]` title so it reads "Lesson 01 — <post heading>".
   - Done when: two different slugs show two different tab titles, both starting with "Lesson 01 —".
 - [ ] 4. Make a share image for the whole site: big "Bladjar" text, with your site description as a smaller second line, on a colored background.
   - Done when: `<head>` has an `og:image` tag on every page, and opening that image URL shows your picture.

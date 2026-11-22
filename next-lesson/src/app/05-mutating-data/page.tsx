@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { todos } from "./todos";
 import { addTodo } from "./actions";
+
+export const metadata: Metadata = {
+  title: "Lesson 5 - Mutating Data",
+  description: "Add todos with a server action and refresh the page data.",
+};
 
 export default function LessonFive() {
   return (

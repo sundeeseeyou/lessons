@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import ToggleBtn from "./toggle";
 import NameInput from "./name-input";
 import ShoppingList from "./shopping-list";
+
+export const metadata: Metadata = {
+  title: "Lesson 6 - useState",
+  description: "A toggle, a controlled input and a shopping list with useState.",
+};
 
 export default function LessonSix() {
   return (

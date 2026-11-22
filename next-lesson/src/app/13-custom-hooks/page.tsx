@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import OnlineBadge from "./OnlineBadge";
 import SaveButton from "./SaveButton";
+
+export const metadata: Metadata = {
+  title: "Lesson 13 - Custom Hooks",
+  description: "An online / offline badge from a custom hook.",
+};
 
 export default function LessonThirteen() {
   return (

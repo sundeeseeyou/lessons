@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import SelectOpt from "./select-option";
 import CurrentSort from "./current-sort";
 import PostList from "./post-lits";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
+
+export const metadata: Metadata = {
+  title: "Lesson 8 - Search Params and useRouter",
+  description: "Sort blog posts with ?sort= in the URL.",
+};
 
 export default function LessonEight({
   searchParams,

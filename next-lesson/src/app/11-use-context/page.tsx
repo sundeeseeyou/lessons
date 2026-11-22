@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { ThemeContext } from "./ThemeContext";
 import ThemeLabel from "./ThemeLabel";
+
+export const metadata: Metadata = {
+  title: "Lesson 11 - useContext",
+  description: "A dark mode switch shared across the whole site.",
+};
 
 export default function LessonEleven() {
   return (

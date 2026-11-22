@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import FreshClock from "./FreshClock";
 import CachedClock from "./CachedClock";
 import CachedPost from "./cached-posts";
+
+export const metadata: Metadata = {
+  title: "Lesson 10 - Caching",
+  description: "Fresh vs cached clocks, and cached data.",
+};
 
 export default function LessonTen() {
   return (

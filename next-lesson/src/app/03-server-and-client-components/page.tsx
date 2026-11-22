@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Counter from "@/components/Counter";
+
+export const metadata: Metadata = {
+  title: "Lesson 3 - Server and Client Components",
+  description: "When code runs on the server and when it runs in the browser.",
+};
 
 export default function LessonThree() {
   console.log("page");

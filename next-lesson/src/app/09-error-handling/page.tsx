@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 const links = [
@@ -14,6 +15,11 @@ const links = [
     url: "/09-error-handling/form",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Lesson 9 - Error Handling",
+  description: "Not-found pages, error screens and form errors from the server.",
+};
 
 export default function LessonNine() {
   return (

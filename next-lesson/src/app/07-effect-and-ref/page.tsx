@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import FocusInput from "./focus-input";
 import Counter from "./title-counter";
 import Timer from "./timer";
+
+export const metadata: Metadata = {
+  title: "Lesson 7 - useEffect and useRef",
+  description: "Focus an input, update the tab title and run a timer.",
+};
 
 export default function LessonSeven() {
   return (

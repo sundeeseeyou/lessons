@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import { Suspense } from "react";
 import Shop from "./Shop";
+
+export const metadata: Metadata = {
+  title: "Lesson 12 - useReducer",
+  description: "A coffee shop cart built with useReducer.",
+};
 
 export default function LessonTwelve() {
   return (

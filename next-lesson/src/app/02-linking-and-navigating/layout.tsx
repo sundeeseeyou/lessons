@@ -1,5 +1,11 @@
 import { Suspense } from "react";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Lesson 2 - Linking and Navigation",
+  description: "Link vs a plain <a>, and highlighting the current page.",
+};
 
 export default function PageLayout({
   children,

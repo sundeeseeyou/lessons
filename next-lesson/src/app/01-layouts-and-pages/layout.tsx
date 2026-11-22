@@ -1,5 +1,14 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Lesson 1 - Layout and Pages", // judul untuk /01-layouts-and-pages sendiri
+    template: "Lesson 1 - %s | Bladjar", // pola untuk halaman anak: [slug], about
+  },
+  description: "Nested layouts, pages and a dynamic [slug] route.",
+};
 
 export default function PageLayout({
   children,
