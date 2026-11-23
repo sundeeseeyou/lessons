@@ -1118,11 +1118,11 @@ Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page 
 
 ### Challenge
 
-- [ ] 1. Make `GET /api/todos`. It returns a todo list (keep it in an array in the same file, like lesson 05).
+- [x] 1. Make `GET /api/todos`. It returns a todo list (keep it in an array in the same file, like lesson 05).
   - Done when: opening `http://localhost:3000/api/todos` in the browser shows JSON.
-- [ ] 2. Make `POST /api/todos`. It reads a todo text from the request body, adds it to the list, and sends back the updated list. Test it with Postman, then open the GET URL again.
+- [x] 2. Make `POST /api/todos`. It reads a todo text from the request body, adds it to the list, and sends back the updated list. Test it with Postman, then open the GET URL again.
   - Done when: after a POST in Postman, the GET URL shows the new todo.
-- [ ] 3. Reject empty todos. A POST with empty text (or only spaces) gets a 400 status and an error message instead of being added.
+- [x] 3. Reject empty todos. A POST with empty text (or only spaces) gets a 400 status and an error message instead of being added.
   - Done when: Postman shows status 400 and your message for an empty text.
 - [ ] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
   - Done when: adding a todo from the page works, and an empty one shows your error.
