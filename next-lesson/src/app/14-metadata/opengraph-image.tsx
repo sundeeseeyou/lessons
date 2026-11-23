@@ -7,7 +7,7 @@ export const size = {
 };
 
 export const contentType = "image/png";
-export const alt = "Recipes";
+export const alt = "Bladjar";
 
 export default function Image() {
   return new ImageResponse(
@@ -16,16 +16,15 @@ export default function Image() {
         width: "100%",
         height: "100%",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#301193",
+        background: "linear-gradient(to right, #301193 20%, #030303 90%)",
         color: "white",
-        fontSize: 120,
-        fontWeight: 700,
       }}
     >
-      Recipes
-      <p>Indonesia</p>
+      <h2 style={{ fontSize: 100, fontWeight: "700" }}>Bladjar</h2>
+      <p style={{ fontSize: 38 }}>Kangen Ngoding Biar Gak Boring</p>
     </div>,
     size,
   );

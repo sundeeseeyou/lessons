@@ -948,7 +948,7 @@ Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that U
   - Done when: two different slugs show two different tab titles, both starting with "Lesson 01 —".
 - [x] 4. Make a share image for the whole site: big "Bladjar" text, with your site description as a smaller second line, on a colored background.
   - Done when: `<head>` has an `og:image` tag on every page, and opening that image URL shows your picture.
-- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
