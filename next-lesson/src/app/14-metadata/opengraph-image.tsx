@@ -21,6 +21,8 @@ export default function Image() {
         justifyContent: "center",
         background: "linear-gradient(to right, #301193 20%, #030303 90%)",
         color: "white",
+        border: "4px",
+        borderColor: "#B5E41B",
       }}
     >
       <h2 style={{ fontSize: 100, fontWeight: "700" }}>Bladjar</h2>
