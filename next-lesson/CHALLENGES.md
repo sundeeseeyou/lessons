@@ -324,7 +324,7 @@ Docs:
   - Done when: the first clock changes on every reload, but the second one stays the same (reload a few times within one minute).
 - [x] 4. Step 3 cached a *component*. Now cache *data* instead. In a `data.ts`, write `getPosts()`: a function (not a component) that fetches the blog posts and returns `{ posts, fetchedAt }`, where `fetchedAt` is the time the fetch really ran. Cache this function for hours. Then make a plain component (no `'use cache'`) that calls `getPosts()` and shows "Fetched at: ..." once, plus the first 5 titles.
   - Done when: "Fetched at" stays the same across reloads. If it changes, the fetch ran again, so the cache is not on the function.
-- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -551,17 +551,17 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 
 Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 
-- [ ] 1. Make the products: a short list (3–4 items, each with an id, a name and a price) in `src/data/products.ts`. Show them on the lesson 12 page, each with an "Add to cart" button that does nothing yet.
+- [x] 1. Make the products: a short list (3–4 items, each with an id, a name and a price) in `src/data/products.ts`. Show them on the lesson 12 page, each with an "Add to cart" button that does nothing yet.
   - Done when: the products show with their buttons.
-- [ ] 2. Make the cashier. Write a reducer that understands one note: "add this product". If the product is already in the cart, its quantity goes up by one. If not, it joins the cart with quantity 1. Hook it up so "Add to cart" sends that note, and show the cart below the products (name × quantity).
+- [x] 2. Make the cashier. Write a reducer that understands one note: "add this product". If the product is already in the cart, its quantity goes up by one. If not, it joins the cart with quantity 1. Hook it up so "Add to cart" sends that note, and show the cart below the products (name × quantity).
   - Done when: clicking "Add" on the same product twice shows it once with × 2.
-- [ ] 3. Teach the cashier "remove one of these". Add a "−" button to each cart line. Quantity goes down by one, and the line disappears at zero.
+- [x] 3. Teach the cashier "remove one of these". Add a "−" button to each cart line. Quantity goes down by one, and the line disappears at zero.
   - Done when: "−" lowers the count and removes the line at zero.
-- [ ] 4. Teach the cashier "empty everything", with an "Empty cart" button.
+- [x] 4. Teach the cashier "empty everything", with an "Empty cart" button.
   - Done when: the button clears the cart.
-- [ ] 5. Show the total price at the bottom of the cart.
+- [x] 5. Show the total price at the bottom of the cart.
   - Done when: the total updates as you add and remove.
-- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
