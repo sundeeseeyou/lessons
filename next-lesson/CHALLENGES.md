@@ -1124,9 +1124,9 @@ Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page 
   - Done when: after a POST in Postman, the GET URL shows the new todo.
 - [x] 3. Reject empty todos. A POST with empty text (or only spaces) gets a 400 status and an error message instead of being added.
   - Done when: Postman shows status 400 and your message for an empty text.
-- [ ] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
+- [x] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
   - Done when: adding a todo from the page works, and an empty one shows your error.
-- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
