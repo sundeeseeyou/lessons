@@ -1,6 +1,6 @@
 import { connection } from "next/server";
 
-export const todos: string[] = ["Indonesia", "Malaysia", "Cambodia"];
+export const todos: string[] = ["indo"];
 
 export async function GET() {
   await connection();

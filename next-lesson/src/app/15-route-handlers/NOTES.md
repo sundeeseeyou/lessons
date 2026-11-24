@@ -27,6 +27,34 @@ Terms to search for:
 - **Never trust client input**: the reason behind the check
 - **Fail fast / early return**: `return` the 400 as soon as something is wrong
 
+### Why no `revalidatePath` here?
+
+Short answer: **who draws the list decides how it gets updated.**
+
+**Lesson 05 (server draws the list)**
+- The server cooks the page and sends it ready-made, like a printed menu.
+- After adding a todo, the printed menu is old. `revalidatePath` = "print a new menu".
+
+**Lesson 15 (browser draws the list)**
+- The list lives in `useState` inside a client component, like a whiteboard in your own hands.
+- `POST /api/todos` already answers with the new list.
+- So you just write it on the whiteboard yourself: `setTodos(data.todos)`. React redraws it. No reprint needed.
+
+| | Lesson 05 | Lesson 15 |
+|---|---|---|
+| Who draws the list | server component | client component |
+| Where the list lives | on the server, inside the HTML | in `useState` in the browser |
+| How it updates | `revalidatePath` → server redraws the page | `setTodos(data.todos)` → React redraws |
+
+Rule of thumb:
+- Data shown by a **server component** → use `revalidatePath` after changing it.
+- Data shown by a **client component** with `useState` → just call the setter with the new data.
+
+### Why not `String(body.item)`?
+
+- `String(undefined)` turns "nothing" into the text `"undefined"`, and that text is not empty, so it passes the check and lands in the list.
+- Use `body.item` as it is. If the key is missing or wrong, it stays `undefined`, `!item` is `true`, and the client gets a 400.
+
 ## Blockers:
 
 - 
