@@ -167,6 +167,7 @@ Docs:
 **What you're building:** a page that lists 10 blog titles, with "A–Z" and "Z–A" buttons. Clicking a button changes the URL and the order of the list.
 
 Docs:
+
 - https://nextjs.org/docs/app/api-reference/functions/use-search-params
 - https://nextjs.org/docs/app/api-reference/functions/use-router
 - https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional
@@ -181,7 +182,7 @@ Docs:
   - Done when: clicking "A–Z" logs `asc` in the terminal, and "Z–A" logs `desc`.
 - [x] 3c. Sort the titles before showing them: `asc` → A to Z, `desc` → Z to A, no sort → the API's order.
   - Done when: the buttons reorder the list.
-- [x] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change the buttons so they *replace* the current history entry instead of adding a new one, and try Back again.
+- [x] 4. Click A–Z, Z–A, A–Z, then press the browser's Back button a few times. Then change the buttons so they _replace_ the current history entry instead of adding a new one, and try Back again.
 - [x] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
@@ -196,28 +197,34 @@ Docs:
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - Client component (`'use client'`). `useRouter()` and `usePathname()` come from `next/navigation`.
 - Navigate with `router.push(...)`. The new URL is the current path + `?sort=asc`.
 
 **Step 2**
+
 - `useSearchParams()` (from `next/navigation`) reads the query: `.get("sort")` gives `"asc"`, `"desc"`, or `null`.
 - A component that uses `useSearchParams` should be wrapped in `<Suspense>` where you render it.
 
 **Step 3a**
+
 - Same pattern as `posts.tsx` in lesson 04: an `async` component, wrapped in `<Suspense fallback={...}>` in the page.
 
 **Step 3b**
+
 - The page receives its props with `export default function LessonEight(props: PageProps<"/08-search-params">)`.
 - `props.searchParams` is a Promise (like `params` in lesson 01). Don't `await` it in the page. Pass it as a prop: `<PostList searchParams={props.searchParams} />`. Awaiting it in the page, outside `<Suspense>`, makes the whole page wait ("blocking-route").
-- In the post list, type the prop as `{ searchParams: Promise<{ sort?: string | string[] }> }`. Read it as: "a Promise that gives an object that *may* have `sort`". `?` = may be missing, `string[]` because a URL can repeat a key.
+- In the post list, type the prop as `{ searchParams: Promise<{ sort?: string | string[] }> }`. Read it as: "a Promise that gives an object that _may_ have `sort`". `?` = may be missing, `string[]` because a URL can repeat a key.
 - Then `const { sort } = await searchParams;`.
 
 **Step 3c**
+
 - A to Z: `[...posts].sort((a, b) => a.title.localeCompare(b.title))`. Z to A: add `.reverse()`.
 - Copy first (`[...posts]`) because `.sort()` changes the array it's called on.
 - `localeCompare` compares two strings alphabetically.
 
 **Step 4**
+
 - `router.replace(...)` instead of `router.push(...)`.
 
 </details>
@@ -229,6 +236,7 @@ Docs:
 **What you're building:** a lesson page with three sub-pages, each showing a different kind of error: a "not found", a crash, and a form that rejects bad input.
 
 **Built-in pieces you'll use** (Next.js and React already have these, you don't build them):
+
 - `not-found.tsx`: a special file name. Next.js shows it when a page calls `notFound()`. The one in `src/app/` is the site-wide 404.
 - `notFound()`: a function from `next/navigation`. Call it to say "this thing doesn't exist", and Next.js swaps the page for the nearest `not-found.tsx`.
 - `error.tsx`: a special file name. When something inside that folder crashes, Next.js shows this file instead. Next.js hands it two props for free: `error` (what went wrong) and `retry` (a function that tries again). No import needed.
@@ -259,13 +267,16 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - The site's 404 is `src/app/not-found.tsx`.
 
 **Step 2**
+
 - `notFound()` from `next/navigation` shows the nearest `not-found.tsx`.
 - Put a `not-found.tsx` next to the `post` page.
 
 **Step 3**
+
 - The crashing part is a client component with an `explode` state. If `explode` is true, `throw new Error("Boom")` before the `return`.
 - The error screen is `error.tsx` next to the `crash` page. It must be a client component.
 - Its props: `{ error, retry }: { error: unknown; retry: () => void }`. It's `retry`, not `reset` (older tutorials use `reset`).
@@ -273,9 +284,11 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 - In dev, Next.js shows its own red error overlay first. Close it to see your `error.tsx`.
 
 **Step 4**
+
 - `onClick={() => { throw new Error("Click boom") }}`
 
 **Step 5**
+
 - Server side: an `actions.ts` with `'use server'`, exporting `saveName(prevState: { message: string }, formData: FormData)`. It returns `{ message: "..." }` in both cases.
 - Client side: a form component that uses `useActionState` (from `react`): `const [state, formAction, pending] = useActionState(saveName, { message: "" })`. Put `action={formAction}` on the form, show `state.message`, and `disabled={pending}` on the button.
 - With `useActionState`, the action gets `prevState` first and `formData` second.
@@ -290,6 +303,7 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 **What you're building:** a page that shows two clocks side by side. One shows a fresh time on every reload, the other is cached and stays the same for a while. Then the same idea for fetched data.
 
 **Built-in pieces you'll use** (Next.js already has these, you don't build them):
+
 - `connection()`: a function from `next/server`. Await it in a component to say "build this fresh on every visit".
 - `'use cache'`: a directive, written as the first line inside a function or component. It tells Next.js "remember what this returns and reuse it".
 - `cacheLife()`: a function from `next/cache`, called right after `'use cache'`. It says how long to remember: `'minutes'`, `'hours'`, `'days'`, and so on.
@@ -297,14 +311,14 @@ Docs: https://nextjs.org/docs/app/getting-started/error-handling
 
 **How it works (read this first)**
 
-Next.js wants to build every page *in advance*, before anyone visits. Think of a printed flyer: print once, hand the same copy to everyone, super fast. This is called **prerendering**. Your lesson 01–09 pages all got printed this way without you noticing.
+Next.js wants to build every page _in advance_, before anyone visits. Think of a printed flyer: print once, hand the same copy to everyone, super fast. This is called **prerendering**. Your lesson 01–09 pages all got printed this way without you noticing.
 
 A clock breaks the flyer idea. If you print "14:03:21" today, everyone tomorrow still gets "14:03:21". Next.js knows that `new Date()` / `Date.now()` inside a server component means "this can't be printed in advance", so in dev it stops and shows an **insight card** telling you to choose. There are only two choices, and this lesson makes you try both:
 
-| Choice | What you write | What it means | Analogy |
-|---|---|---|---|
-| Fresh every visit | `await connection()` as the first line of an `async` component, and wrap it in `<Suspense>` | Don't print this part. Build it when the visitor arrives. | A barista writing your name on the cup |
-| Cached for a while | `'use cache'` then `cacheLife('minutes')` as the first lines of an `async` component or function | Print it, keep the copy for N minutes, then print a new one | A café's "soup of the day" board |
+| Choice             | What you write                                                                                   | What it means                                               | Analogy                                |
+| ------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- | -------------------------------------- |
+| Fresh every visit  | `await connection()` as the first line of an `async` component, and wrap it in `<Suspense>`      | Don't print this part. Build it when the visitor arrives.   | A barista writing your name on the cup |
+| Cached for a while | `'use cache'` then `cacheLife('minutes')` as the first lines of an `async` component or function | Print it, keep the copy for N minutes, then print a new one | A café's "soup of the day" board       |
 
 Why `<Suspense>` for the fresh part? Because the rest of the page is still a flyer. Suspense marks the one hole in the flyer ("time goes here") so the flyer can still be printed with the hole left blank. Same idea as the `useSearchParams` Suspense in lesson 08.
 
@@ -313,6 +327,7 @@ Why `async`? Both `connection()` and `'use cache'` need the component to be able
 One more rule: this all applies to **server** components. A `'use client'` component is not what this lesson is about, so do not put `'use client'` on the lesson 10 page.
 
 Docs:
+
 - https://nextjs.org/docs/app/getting-started/caching
 - https://nextjs.org/docs/app/api-reference/functions/cacheLife
 
@@ -322,9 +337,9 @@ Docs:
   - Done when: the time changes on every reload, and the insight is gone.
 - [x] 3. Add a second clock next to it that is cached for a few minutes.
   - Done when: the first clock changes on every reload, but the second one stays the same (reload a few times within one minute).
-- [x] 4. Step 3 cached a *component*. Now cache *data* instead. In a `data.ts`, write `getPosts()`: a function (not a component) that fetches the blog posts and returns `{ posts, fetchedAt }`, where `fetchedAt` is the time the fetch really ran. Cache this function for hours. Then make a plain component (no `'use cache'`) that calls `getPosts()` and shows "Fetched at: ..." once, plus the first 5 titles.
+- [x] 4. Step 3 cached a _component_. Now cache _data_ instead. In a `data.ts`, write `getPosts()`: a function (not a component) that fetches the blog posts and returns `{ posts, fetchedAt }`, where `fetchedAt` is the time the fetch really ran. Cache this function for hours. Then make a plain component (no `'use cache'`) that calls `getPosts()` and shows "Fetched at: ..." once, plus the first 5 titles.
   - Done when: "Fetched at" stays the same across reloads. If it changes, the fetch ran again, so the cache is not on the function.
-- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -338,9 +353,11 @@ Docs:
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - `new Date().toLocaleTimeString()` inside a server component.
 
 **Step 2**
+
 - Make the clock component `async` and call `await connection()` (from `next/server`) as its first line.
 - Wrap the clock in `<Suspense>` in the page.
 - Starter (`fresh-clock.tsx`):
@@ -355,6 +372,7 @@ Docs:
   In the page: `<Suspense fallback={<p>...</p>}><FreshClock /></Suspense>`.
 
 **Step 3**
+
 - A second clock component with `'use cache'` and `cacheLife('minutes')` (from `next/cache`) at the top of its body.
 - Cached components must be `async`.
 - Saving the file resets the cache in dev. Reload without editing.
@@ -370,6 +388,7 @@ Docs:
   ```
 
 **Step 4**
+
 - A `data.ts` with `getPosts()`: `'use cache'`, `cacheLife('hours')`, fetch, and `return { posts, fetchedAt: new Date().toLocaleTimeString() }`.
 - Starter (`data.ts`):
   ```ts
@@ -396,6 +415,7 @@ Docs:
 **The story:** a theme isn't owned by one page. The header has the button, but the lesson pages need to know the theme too. You could pass it down as props through every layout and page, but that gets messy fast ("prop drilling"). Context is a shared noticeboard: one component pins the current theme on it, and any component below can read it.
 
 **Built-in pieces you'll use:**
+
 - `createContext`: React function that creates the noticeboard. You make it once, in its own file.
 - The provider: you wrap part of the app with your context (`<ThemeContext value={...}>`), and everything inside can read what you put in `value`.
 - `useContext`: React hook. A component calls it to read the noticeboard.
@@ -449,6 +469,7 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 <summary>Hints (open only when stuck)</summary>
 
 **Step 2a**
+
 - You already have the file: `src/app/11-use-context/ThemeContext.tsx`. Keep it there.
 - The context's name must start with a capital letter: `ThemeContext`, not `themeContext`. In step 2b you use it as a JSX tag, and React treats lowercase tags as plain HTML.
   ```tsx
@@ -471,9 +492,14 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 - Then render `<ThemeLabel />` in the lesson 11 `page.tsx`.
 
 **Step 2b**
+
 - In `src/app/11-use-context/ThemeProvider.tsx`, with `"use client"` on line 1 and `import { ThemeContext } from "./ThemeContext"`. `children` is "whatever is between my tags" (same as a layout).
   ```tsx
-  export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+  export default function ThemeProvider({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
     return <ThemeContext value="dark">{children}</ThemeContext>;
   }
   ```
@@ -489,6 +515,7 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 - Import it as a default import: `import ThemeProvider from "@/app/11-use-context/ThemeProvider"`.
 
 **Step 2c**
+
 - In `ThemeContext.tsx`: the board now holds a pair, not a word, so the default value and its type change too:
   ```tsx
   type ThemeValue = { theme: string; toggleTheme: () => void };
@@ -500,16 +527,23 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
   ```
 - In `ThemeProvider.tsx`: the provider holds the state (lesson 06) and pins the pair. Import `useState` from `react`.
   ```tsx
-  export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+  export default function ThemeProvider({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
     const [theme, setTheme] = useState("light");
     const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
-    return <ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>;
+    return (
+      <ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>
+    );
   }
   ```
 - In `ThemeLabel`, the reader now gets the pair: `const { theme } = useContext(ThemeContext);`
 
 **Step 3**
+
 - A client component, e.g. `src/components/navigation/ThemeToggle.tsx`:
   ```tsx
   "use client";
@@ -518,17 +552,23 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 
   export default function ThemeToggle() {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    return <button onClick={toggleTheme}>{theme === "light" ? "Light" : "Dark"}</button>;
+    return (
+      <button onClick={toggleTheme}>
+        {theme === "light" ? "Light" : "Dark"}
+      </button>
+    );
   }
   ```
 - Render `<ThemeToggle />` inside `Header.tsx`. Header can stay a server component (same idea as Counter in lesson 03).
 
 **Step 4**
+
 - In `globals.css`, after `@import "tailwindcss";`: `@custom-variant dark (&:where(.dark, .dark *));`
 - In the provider, a `useEffect` with `[theme]` that runs `document.documentElement.classList.toggle("dark", theme === "dark")`.
 - Card example classes: `bg-white text-black dark:bg-gray-900 dark:text-white`.
 
 **Step 5**
+
 - Save: in the same effect, `localStorage.setItem("theme", theme)`.
 - Read: a second `useEffect` with `[]` that reads `localStorage.getItem("theme")` and sets the state if it's there.
 - Don't read `localStorage` directly in `useState(...)`: the provider also renders on the server, where `localStorage` doesn't exist.
@@ -544,6 +584,7 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 **The story:** with `useState`, every button would carry its own "how to change the cart" logic, spread across the component. A reducer moves all of that into one place, like a cashier. Buttons don't touch the cart themselves. They hand the cashier a note ("add this", "remove one of these", "empty everything"), and the cashier is the only one who changes the cart.
 
 **Built-in pieces you'll use:**
+
 - `useReducer`: React hook. Like `useState`, but instead of a setter you get `dispatch`, which sends a note to the cashier.
 - The reducer: a plain function you write. It receives the current cart and a note, and returns the new cart. It never edits the old cart (the lesson 06 rule: always return a new array).
 - The note (an "action"): a small object you design, like `{ type: "add", product }`.
@@ -551,17 +592,17 @@ Three parts: `createContext` makes the board, the provider pins a value, `useCon
 
 Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 
-- [x] 1. Make the products: a short list (3–4 items, each with an id, a name and a price) in `src/data/products.ts`. Show them on the lesson 12 page, each with an "Add to cart" button that does nothing yet.
+- [ ] 1. Make the products: a short list (3–4 items, each with an id, a name and a price) in `src/data/products.ts`. Show them on the lesson 12 page, each with an "Add to cart" button that does nothing yet.
   - Done when: the products show with their buttons.
-- [x] 2. Make the cashier. Write a reducer that understands one note: "add this product". If the product is already in the cart, its quantity goes up by one. If not, it joins the cart with quantity 1. Hook it up so "Add to cart" sends that note, and show the cart below the products (name × quantity).
+- [ ] 2. Make the cashier. Write a reducer that understands one note: "add this product". If the product is already in the cart, its quantity goes up by one. If not, it joins the cart with quantity 1. Hook it up so "Add to cart" sends that note, and show the cart below the products (name × quantity).
   - Done when: clicking "Add" on the same product twice shows it once with × 2.
-- [x] 3. Teach the cashier "remove one of these". Add a "−" button to each cart line. Quantity goes down by one, and the line disappears at zero.
+- [ ] 3. Teach the cashier "remove one of these". Add a "−" button to each cart line. Quantity goes down by one, and the line disappears at zero.
   - Done when: "−" lowers the count and removes the line at zero.
-- [x] 4. Teach the cashier "empty everything", with an "Empty cart" button.
+- [ ] 4. Teach the cashier "empty everything", with an "Empty cart" button.
   - Done when: the button clears the cart.
-- [x] 5. Show the total price at the bottom of the cart.
+- [ ] 5. Show the total price at the bottom of the cart.
   - Done when: the total updates as you add and remove.
-- [x] 6. Write `NOTES.md` (with quiz answers) + commit.
+- [ ] 6. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -573,18 +614,22 @@ Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - The page is a server component. The buttons and the cart need state, so the products list and the cart both go in one client component (they share the cart).
 
 **Step 2**
+
 - `const [cart, dispatch] = useReducer(cartReducer, [])`.
 - Reducer shape: `function cartReducer(cart, action) { if (action.type === "add") { ... } return cart; }`.
 - "Already in the cart?": `.find()`. Update it with `.map()` + spread (practice-2, question 12). New item: `[...cart, { ...product, qty: 1 }]`.
 - A type for the notes keeps TypeScript happy: `type Action = { type: "add"; product: Product } | { type: "remove"; id: number } | { type: "clear" }`.
 
 **Step 3**
+
 - Lower the quantity with `.map()`, then drop lines at zero with `.filter()`.
 
 **Step 5**
+
 - `cart.reduce((total, item) => total + item.price * item.qty, 0)`.
 
 </details>
@@ -599,13 +644,13 @@ Docs: https://react.dev/learn/extracting-state-logic-into-a-reducer
 
 **You'll build the same thing twice, on purpose:**
 
-| | Version A: without a custom hook (long) | Version B: with a custom hook (short) |
-|---|---|---|
-| Steps | 1 and 2 | 3 |
-| Where the online logic lives | inside `OnlineBadge` **and** inside `SaveButton` (copied) | only in `use-online-status.ts` |
-| `OnlineBadge.tsx` | state + effect + `return <span>` | `useOnlineStatus()` + `return <span>` |
-| `SaveButton.tsx` | state + effect (copy) + `return <button>` | `useOnlineStatus()` + `return <button>` |
-| `use-online-status.ts` | not used yet | state + effect + `return isOnline` (no JSX) |
+|                              | Version A: without a custom hook (long)                   | Version B: with a custom hook (short)       |
+| ---------------------------- | --------------------------------------------------------- | ------------------------------------------- |
+| Steps                        | 1 and 2                                                   | 3                                           |
+| Where the online logic lives | inside `OnlineBadge` **and** inside `SaveButton` (copied) | only in `use-online-status.ts`              |
+| `OnlineBadge.tsx`            | state + effect + `return <span>`                          | `useOnlineStatus()` + `return <span>`       |
+| `SaveButton.tsx`             | state + effect (copy) + `return <button>`                 | `useOnlineStatus()` + `return <button>`     |
+| `use-online-status.ts`       | not used yet                                              | state + effect + `return isOnline` (no JSX) |
 
 Why both? Version A is how you'd normally start: logic lives in the component that needs it. You only extract a hook once a second component needs the same logic. Version A shows you the problem, and version B is the fix. Only the state + effect part moves into the hook. Each component keeps its own `return` with JSX.
 
@@ -615,16 +660,17 @@ Why both? Version A is how you'd normally start: logic lives in the component th
 - **A custom hook is cut and paste.** Cut the `useState` + `useEffect` lines out of the component, paste them into a function whose name starts with `use`, and `return` the value at the end. The component now calls your function, the same way it calls `useState`.
 - **The flow, every time:**
 
-| Moment | What happens |
-|---|---|
-| Component appears | state starts with its default value |
-| Right after that | the effect runs and starts listening to the browser |
+| Moment                         | What happens                                                                |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| Component appears              | state starts with its default value                                         |
+| Right after that               | the effect runs and starts listening to the browser                         |
 | The browser announces a change | your listener calls `setState`, the component re-renders with the new value |
-| Component disappears | the cleanup runs and stops listening |
+| Component disappears           | the cleanup runs and stops listening                                        |
 
 - **Analogy.** A school announces "the power is out!" through a speaker. Without a custom hook, every class writes its own rules for "how to listen to the speaker". With a custom hook, the teacher writes one SOP sheet, and every class just says "follow the SOP".
 
 **Built-in pieces you'll use:**
+
 - `navigator.onLine`: the browser tells you `true` / `false` right now.
 - The `online` / `offline` window events: the browser announces when the connection changes. You listen with `window.addEventListener`, and stop listening in the effect's cleanup (lesson 07).
 - A custom hook: just a function whose name starts with `use` and that calls other hooks inside. No special import.
@@ -749,15 +795,15 @@ The hook file has no `"use client"`: it runs inside the components that call it,
 
 ### From the example to your challenge
 
-| Example | Your challenge |
-|---|---|
-| `scrollY`, starts at `0` | `isOnline`, starts at `true` |
-| 1 event: `"scroll"` | 2 events: `"online"` and `"offline"` |
-| 1 handler reads `window.scrollY` | 2 handlers: one sets `true`, one sets `false` |
-| 1 `addEventListener` + 1 `removeEventListener` | 2 of each |
-| `ScrollLabel` + `BackToTop` | `OnlineBadge` + `SaveButton` |
-| `BackToTop` hides itself with `return null` | `SaveButton` stays visible but gets `disabled` |
-| `use-scroll-y.ts` → `useScrollY()` | `use-online-status.ts` → `useOnlineStatus()` |
+| Example                                        | Your challenge                                 |
+| ---------------------------------------------- | ---------------------------------------------- |
+| `scrollY`, starts at `0`                       | `isOnline`, starts at `true`                   |
+| 1 event: `"scroll"`                            | 2 events: `"online"` and `"offline"`           |
+| 1 handler reads `window.scrollY`               | 2 handlers: one sets `true`, one sets `false`  |
+| 1 `addEventListener` + 1 `removeEventListener` | 2 of each                                      |
+| `ScrollLabel` + `BackToTop`                    | `OnlineBadge` + `SaveButton`                   |
+| `BackToTop` hides itself with `return null`    | `SaveButton` stays visible but gets `disabled` |
+| `use-scroll-y.ts` → `useScrollY()`             | `use-online-status.ts` → `useOnlineStatus()`   |
 
 ### Challenge
 
@@ -784,10 +830,12 @@ The hook file has no `"use client"`: it runs inside the components that call it,
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - Copy the version A `ScrollLabel` and change it using the table: rename the state, start with `true`, and use two handlers instead of one.
 - Start with `true`, not `navigator.onLine`: the component also renders on the server, where `navigator` doesn't exist.
 
 **Step 3**
+
 - Do exactly what version B does: cut the `useState` + `useEffect` into `use-online-status.ts`, `return isOnline;`, then `const isOnline = useOnlineStatus();` in each component.
 
 </details>
@@ -807,15 +855,16 @@ The hook file has no `"use client"`: it runs inside the components that call it,
 - **Inheritance.** Metadata flows down the folders, like layouts. A page's metadata is merged with its layouts' metadata, and the closest one wins. That's why the root layout's template `%s | Bladjar` wraps every page's title.
 - **Three tools, pick by situation:**
 
-| Situation | Use |
-|---|---|
-| The title is always the same (`"Recipes"`) | `export const metadata = { ... }` |
-| The title depends on the URL or data (`/recipes/pancake` → `"Pancake"`) | `export async function generateMetadata()` |
-| You want a share image | a file named `opengraph-image.tsx` in that folder |
+| Situation                                                               | Use                                               |
+| ----------------------------------------------------------------------- | ------------------------------------------------- |
+| The title is always the same (`"Recipes"`)                              | `export const metadata = { ... }`                 |
+| The title depends on the URL or data (`/recipes/pancake` → `"Pancake"`) | `export async function generateMetadata()`        |
+| You want a share image                                                  | a file named `opengraph-image.tsx` in that folder |
 
 - **Analogy.** A book in a library. The page content is what's inside the book. Metadata is the cover and the label on the spine: the title, a one-line summary, a cover picture. The librarian (Google) and your friends (WhatsApp) only see the cover before they open it.
 
 **Built-in pieces you'll use:**
+
 - `metadata`: an object you export from a `page.tsx` or `layout.tsx` (server components only). Next.js turns it into `<title>` and `<meta>` tags.
 - `title.template`: already in your root layout. A page's title gets slotted into `%s`.
 - `generateMetadata`: the function version, for titles that depend on data (like a slug). You already used it in lesson 01.
@@ -862,7 +911,11 @@ Result: the tab shows **"Recipes | Bladjar"**. You wrote `"Recipes"`, and the ro
 import type { Metadata } from "next";
 
 const recipes = [
-  { slug: "pancake", name: "Pancake", summary: "Fluffy pancakes in 10 minutes." },
+  {
+    slug: "pancake",
+    name: "Pancake",
+    summary: "Fluffy pancakes in 10 minutes.",
+  },
   { slug: "omelette", name: "Omelette", summary: "Three eggs, one pan." },
 ];
 
@@ -903,23 +956,21 @@ export const alt = "Recipes";
 
 export default function Image() {
   return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#f97316",
-          color: "white",
-          fontSize: 120,
-          fontWeight: 700,
-        }}
-      >
-        Recipes
-      </div>
-    ),
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#f97316",
+        color: "white",
+        fontSize: 120,
+        fontWeight: 700,
+      }}
+    >
+      Recipes
+    </div>,
     size,
   );
 }
@@ -929,14 +980,14 @@ Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that U
 
 ### From the example to your challenge
 
-| Example | Your challenge |
-|---|---|
-| 1 page gets `metadata` | every lesson page gets `metadata` |
-| title `"Recipes"` | title like `"Lesson 06 — useState"` |
-| a `page.tsx` that is a server component | if a lesson's `page.tsx` has `'use client'`, put `metadata` in that lesson's `layout.tsx` instead |
-| `generateMetadata` → `"Recipe: Pancake"` | lesson 01's `[slug]` → `"Lesson 01 — <post heading>"` |
-| `opengraph-image.tsx` inside `example/` (that section only) | `opengraph-image.tsx` in `src/app/` (the whole site) |
-| orange, text "Recipes" | your own color, text "Bladjar" + your site description as a second line |
+| Example                                                     | Your challenge                                                                                    |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1 page gets `metadata`                                      | every lesson page gets `metadata`                                                                 |
+| title `"Recipes"`                                           | title like `"Lesson 06 — useState"`                                                               |
+| a `page.tsx` that is a server component                     | if a lesson's `page.tsx` has `'use client'`, put `metadata` in that lesson's `layout.tsx` instead |
+| `generateMetadata` → `"Recipe: Pancake"`                    | lesson 01's `[slug]` → `"Lesson 01 — <post heading>"`                                             |
+| `opengraph-image.tsx` inside `example/` (that section only) | `opengraph-image.tsx` in `src/app/` (the whole site)                                              |
+| orange, text "Recipes"                                      | your own color, text "Bladjar" + your site description as a second line                           |
 
 ### Challenge
 
@@ -962,13 +1013,16 @@ Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that U
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - Same as example part 1, without the `description` for now.
 - Error "You are attempting to export metadata from a component marked with use client"? Move the `metadata` export into that lesson's `layout.tsx`.
 
 **Step 3**
+
 - Lesson 01 already has a `generateMetadata`. Only the `title` string changes, like `` `Recipe: ${recipe.name}` `` in example part 2.
 
 **Step 4**
+
 - Same as example part 3, but the file goes in `src/app/opengraph-image.tsx`.
 - Two lines of text: the outer `div` gets `flexDirection: "column"`, with two child `div`s inside, each with its own `fontSize`.
 
@@ -988,17 +1042,18 @@ Result: `<head>` now has `<meta property="og:image" content="...">`. Copy that U
 - **A `route.ts` file is a page that returns data instead of HTML.** The folder still decides the URL (`src/app/api/likes/route.ts` → `/api/likes`). Inside, you export functions named after HTTP methods: `GET` runs when someone reads, `POST` runs when someone sends.
 - **The flow of one request:**
 
-| Step | Who | What |
-|---|---|---|
-| 1 | Client (browser, Postman, phone app) | sends `POST /api/likes` with a body `{ "amount": 1 }` |
-| 2 | Next.js | sees `POST`, calls your `POST` function |
-| 3 | Your `POST` | reads the body, checks it, updates the data |
-| 4 | Your `POST` | answers with JSON and a status code (200 = ok, 400 = your request is wrong) |
-| 5 | Client | reads the status and the JSON, shows the result |
+| Step | Who                                  | What                                                                        |
+| ---- | ------------------------------------ | --------------------------------------------------------------------------- |
+| 1    | Client (browser, Postman, phone app) | sends `POST /api/likes` with a body `{ "amount": 1 }`                       |
+| 2    | Next.js                              | sees `POST`, calls your `POST` function                                     |
+| 3    | Your `POST`                          | reads the body, checks it, updates the data                                 |
+| 4    | Your `POST`                          | answers with JSON and a status code (200 = ok, 400 = your request is wrong) |
+| 5    | Client                               | reads the status and the JSON, shows the result                             |
 
 - **Analogy.** A restaurant takeaway window. `GET` = "what's on the menu?", and they hand you the menu. `POST` = "I'd like to order this", and they take your order. If your order form is empty, they hand it back: "you didn't write anything" (status 400). The window doesn't care who's ordering: a person, a delivery driver, or an app.
 
 **Built-in pieces you'll use:**
+
 - `route.ts`: a special file name. Instead of a page, it answers HTTP requests at that folder's URL. A folder can have a `page.tsx` or a `route.ts`, not both.
 - `GET` / `POST`: you export functions with these names, and Next.js calls the matching one.
 - `Response.json(...)`: sends data back as JSON. You can also set a status code, like 400 for "bad request".
@@ -1105,16 +1160,16 @@ Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page 
 
 ### From the example to your challenge
 
-| Example | Your challenge |
-|---|---|
-| `src/app/api/likes/route.ts` | `src/app/api/todos/route.ts` |
-| data: one number, `let likes = 0` | data: an array, like lesson 05's todo list |
-| `GET` returns `{ likes }` | `GET` returns the todo list |
-| `POST` body `{ "amount": 1 }` | `POST` body `{ "text": "buy milk" }` |
-| `POST` adds to the number | `POST` pushes a new todo, returns the updated list |
-| rejects `amount < 1` | rejects empty text (also only spaces: use `.trim()`) |
+| Example                              | Your challenge                                              |
+| ------------------------------------ | ----------------------------------------------------------- |
+| `src/app/api/likes/route.ts`         | `src/app/api/todos/route.ts`                                |
+| data: one number, `let likes = 0`    | data: an array, like lesson 05's todo list                  |
+| `GET` returns `{ likes }`            | `GET` returns the todo list                                 |
+| `POST` body `{ "amount": 1 }`        | `POST` body `{ "text": "buy milk" }`                        |
+| `POST` adds to the number            | `POST` pushes a new todo, returns the updated list          |
+| rejects `amount < 1`                 | rejects empty text (also only spaces: use `.trim()`)        |
 | page: two buttons with fixed amounts | page: an `<input>` + "Add" button that sends what you typed |
-| shows a number | shows a list (`.map`) |
+| shows a number                       | shows a list (`.map`)                                       |
 
 ### Challenge
 
@@ -1124,9 +1179,9 @@ Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page 
   - Done when: after a POST in Postman, the GET URL shows the new todo.
 - [x] 3. Reject empty todos. A POST with empty text (or only spaces) gets a 400 status and an error message instead of being added.
   - Done when: Postman shows status 400 and your message for an empty text.
-- [x] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
+- [ ] 4. Make the lesson 15 page talk to your API. A client component loads the list from `GET /api/todos` when it appears, and has an input + "Add" button that POSTs to your API, then shows the new list. If the API answers 400, show its error message.
   - Done when: adding a todo from the page works, and an empty one shows your error.
-- [x] 5. Write `NOTES.md` (with quiz answers) + commit.
+- [ ] 5. Write `NOTES.md` (with quiz answers) + commit.
 
 **Quiz**
 
@@ -1140,15 +1195,19 @@ Notice `route.ts` lives in `src/app/api/likes/`, not next to the page. The page 
 <summary>Hints (open only when stuck)</summary>
 
 **Step 1**
+
 - Copy example part 1's `GET` and swap `likes` for your array.
 
 **Step 2**
+
 - Same shape as the example's `POST`, but read `body.text` and `push` a new todo instead of `likes += amount`.
 
 **Step 3**
+
 - `if (!text || text.trim() === "")` → return the 400, the same way the example does.
 
 **Step 4**
+
 - Copy `LikeButton`'s structure: `useEffect` to load, an `async` function to POST, `res.ok` to tell 200 from 400.
 - The input is a controlled input (lesson 06): a `useState` for the text, then send `{ text }` instead of `{ amount }`.
 

@@ -8,8 +8,17 @@ Rules:
 - One step at a time. Tick the box when done.
 - **Look, close, type it yourself.** You may open old lessons, docs, or ask.
   Don't paste whole files.
-- When you reopen a lesson, write its number in `NOTES.md`. That list shows
-  what to review.
+- Keep a "Forgotten list" in `NOTES.md`. Every time you get stuck and open an old
+  lesson to remember how something works, add one line: which lesson you
+  opened, and what you forgot. It is not a cheating log. It shows which
+  lessons didn't stick yet, so you know what to review:
+  ```md
+  ## Forgotten list
+  - 12: how to write the reducer (step 4b)
+  - 08: how to pass searchParams into Suspense (step 3b)
+  - 08: router.replace (step 3a)
+  ```
+  Lesson 08 shows up twice → review lesson 08 before lesson 16.
 - Each capstone is its own Next.js project inside this folder.
 - After the capstone: write `NOTES.md` in the project folder, then commit.
 
