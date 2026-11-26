@@ -78,11 +78,11 @@ You don't need all of this now. Each part tells you which file to make.
 
 You already have most of this.
 
-- [ ] B1. Make the product list 6 products (you have 5). Each one has an id, slug, name, price, emoji, and description. Show all of them as cards on the home page.
+- [x] B1. Make the product list 6 products (you have 5). Each one has an id, slug, name, price, emoji, and description. Show all of them as cards on the home page.
   - Like lesson 12 (`products.ts`).
   - Done when: the home page shows 6 cards.
 
-- [ ] B2. Show the price as Rupiah with dots.
+- [x] B2. Show the price as Rupiah with dots.
   - Done when: a card shows `Rp45.000`, not `Rp45000`.
 
 <details>
@@ -112,7 +112,7 @@ that word to your page, and your page uses it to find the right product.
 Your old `app/[slug]/` folder: delete it. Part C builds the page again in
 `app/products/[slug]/`, one small piece at a time.
 
-- [ ] C1. Make `app/products/[slug]/page.tsx`. For now it only shows the text "Product page".
+- [x] C1. Make `app/products/[slug]/page.tsx`. For now it only shows the text "Product page".
   - Like lesson 01 step 1.
   - Done when: opening `/products/anything` shows "Product page".
 
@@ -168,6 +168,15 @@ export default function ProductPage() {
   }
   ```
   It returns `[{ slug: "latte" }, { slug: "kopi-susu" }, ...]`: one object per product.
+- Error type **"Instant"** ("URL data during prerendering or a navigation")? It comes from `partialPrefetching: true` in `next.config.ts` (copied from `next-lesson`, not a default). Fixes, simplest first:
+  - **Add `app/products/[slug]/loading.tsx`.** Next.js wraps the page in that folder with `<Suspense>` for you, so the page stays as it is:
+    ```tsx
+    export default function Loading() {
+      return <p>Loading...</p>;
+    }
+    ```
+  - **Or** delete the `partialPrefetching` line and restart `npm run dev`.
+  - A `<Suspense>` inside the page's JSX doesn't help: the page `await`s before its JSX exists. A `<Suspense>` in `app/products/layout.tsx` doesn't cover moving from one product to another, because that layout doesn't re-render.
 
 **C3**
 - `.find` gives the first item that matches, or `undefined` if nothing matches:

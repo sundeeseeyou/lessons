@@ -44,4 +44,22 @@ export const PRODUCTS = [
     description:
       "This coffee is coming from certain X with Y and have hint of Z and A",
   },
+  {
+    id: 6,
+    slug: "americano",
+    name: "Americano",
+    price: 18000,
+    emoji: "☕",
+    description:
+      "This coffee is coming from certain X with Y and have hint of Z and A",
+  },
 ];
+
+export type Product = {
+  id: number;
+  slug: string;
+  name: string;
+  price: number;
+  emoji: string;
+  description: string;
+};
