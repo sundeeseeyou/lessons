@@ -116,17 +116,17 @@ Your old `app/[slug]/` folder: delete it. Part C builds the page again in
   - Like lesson 01 step 1.
   - Done when: opening `/products/anything` shows "Product page".
 
-- [ ] C2. Show the slug from the URL on the page. Next.js will show a red **"blocking-route"** error: that's expected. It wants a list of the slugs that exist. Add that list (`generateStaticParams`) and the error goes away.
+- [x] C2. Show the slug from the URL on the page. Next.js will show a red **"blocking-route"** error: that's expected. It wants a list of the slugs that exist. Add that list (`generateStaticParams`) and the error goes away.
   - Like lesson 01 step 4.
   - Done when: `/products/latte` shows the word "latte".
 
-- [ ] C3. Use the slug to find the product in `PRODUCTS`, and show its **name** instead of the slug.
+- [x] C3. Use the slug to find the product in `PRODUCTS`, and show its **name** instead of the slug.
   - Done when: `/products/latte` shows "Latte".
 
 - [ ] C4. Also show the emoji, the price (Rupiah, like B2), and the description.
   - Done when: `/products/latte` shows all four.
 
-- [ ] C5. Make each card on the home page a link to its product page.
+- [x] C5. Make each card on the home page a link to its product page.
   - Like lesson 02.
   - Done when: clicking a card opens that product's page.
 
@@ -134,7 +134,7 @@ Your old `app/[slug]/` folder: delete it. Part C builds the page again in
   - Like lesson 09 step 1.
   - Done when: opening `/abc` shows your 404, not the Next.js default.
 
-- [ ] C7. On the product page, if no product has that slug, show the 404 from C6.
+- [x] C7. On the product page, if no product has that slug, show the 404 from C6.
   - Like lesson 09 step 2.
   - Done when: `/products/nope` shows your 404.
 
